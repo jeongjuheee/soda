@@ -1,0 +1,166 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: var(--color-bg);
+}
+
+.logoArea {
+  margin-bottom: 64px;
+  text-align: center;
+}
+
+.logoTitle {
+  font-size: 64px;
+  font-weight: 900;
+  color: var(--color-primary);
+  letter-spacing: -2.5px;
+  font-family: 'Arial Rounded MT Bold', 'Pretendard', sans-serif;
+  line-height: 1;
+}
+
+.authSection {
+  width: 100%;
+  max-width: 400px;
+  background: var(--color-white);
+  padding: 32px 24px;
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-card);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 32px 0;
+  color: #999;
+  font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #EEE;
+}
+
+.divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
+.adminLink {
+  margin-top: 32px;
+  font-size: 13px;
+  color: #999;
+  text-decoration: underline;
+}
+
+.inputField {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #E0E0E0;
+  background-color: #F8F9FA;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.inputField:focus {
+  border-color: var(--color-primary);
+  background-color: #FFF;
+}
+
+.primaryButton {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+
+.primaryButton:active {
+  opacity: 0.8;
+}
+
+.authLinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  color: #E0E0E0;
+  font-size: 13px;
+}
+
+.authLinks button {
+  color: #888;
+  font-weight: 500;
+}
+
+.authLinks button:hover {
+  text-decoration: underline;
+}
+
+.socialGroup {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.socialIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 20px;
+  color: #fff;
+  transition: transform 0.2s;
+}
+
+.socialIcon:hover {
+  transform: scale(1.05);
+}
+
+.kakao { background-color: #FEE500; color: #000; }
+.naver { background-color: #03C75A; }
+.google { background-color: #FFF; color: #333; border: 1px solid #DDD; }
+
+.textButton {
+  width: 100%;
+  padding: 16px;
+  margin-top: 8px;
+  color: #666;
+  font-weight: 600;
+  background: transparent;
+}
+
+.selectionCard {
+  width: 100%;
+  text-align: left;
+  padding: 20px;
+  background: #F8F9FA;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.selectionCard:hover, .selectionCard:focus {
+  border-color: var(--color-primary);
+  background: #EBF1FF;
+}

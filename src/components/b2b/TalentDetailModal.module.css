@@ -1,0 +1,84 @@
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.content {
+  background: var(--color-white);
+  padding: 32px;
+  border-radius: var(--radius-main);
+  width: 90%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.header {
+  margin-bottom: 24px;
+}
+.name {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-point);
+  margin-bottom: 8px;
+}
+.careerInfo {
+  font-size: 15px;
+  color: #666;
+}
+.section {
+  margin-bottom: 24px;
+}
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-point);
+  margin-bottom: 12px;
+}
+.textBox {
+  background-color: #F8F9FA;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+}
+.aiBox {
+  background-color: var(--color-sub);
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+.link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-size: 14px;
+}
+.actionGroup {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+.btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: var(--radius-sub);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+.cancelBtn {
+  background-color: #F0F0F0;
+  color: #666;
+}
+.proposeBtn {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}

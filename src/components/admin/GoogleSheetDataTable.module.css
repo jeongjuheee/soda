@@ -1,0 +1,85 @@
+.tableContainer {
+  background-color: var(--color-white);
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+  margin-bottom: 32px;
+  overflow-x: auto;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tableTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-point);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid #EEE;
+}
+
+.table th {
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+}
+
+.table td {
+  font-size: 15px;
+  color: #333;
+}
+
+.statusBadge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status_승인완료 {
+  background-color: #EBF1FF;
+  color: var(--color-primary);
+}
+
+.status_대기중 {
+  background-color: #FFF3CD;
+  color: #856404;
+}
+
+.status_블랙리스트 {
+  background-color: #F8D7DA;
+  color: #721C24;
+}
+
+.actionBtn {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-right: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.btnApprove {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btnBan {
+  background-color: #DC3545;
+  color: var(--color-white);
+}

@@ -1,0 +1,36 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  border-radius: var(--radius-sub);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  transition: opacity 0.2s;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.kakao {
+  background-color: #FEE500;
+  color: #000000;
+}
+
+.naver {
+  background-color: #03C75A;
+  color: #FFFFFF;
+}
+
+.google {
+  background-color: #FFFFFF;
+  color: #000000;
+  border: 1px solid #DDDDDD;
+}
+
+.buttonText {
+  margin-left: 8px;
+}

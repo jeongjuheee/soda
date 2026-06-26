@@ -1,0 +1,116 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+  /* Color Tokens */
+  --color-primary: #0071E3;
+  --color-success: #34C759;
+  --color-point: #1C1C1E;
+  --color-sub-text: #8E8E93;
+  --color-border: #E5E5EA;
+  --color-bg-app: #F2F2F7;
+  --color-bg-screen: #F9F9FB;
+  --color-white: #FFFFFF;
+
+  /* Effect Tokens */
+  --shadow-glass: 0px 16px 32px rgba(0, 113, 227, 0.06);
+  --shadow-card: 0px 4px 20px rgba(0, 0, 0, 0.08);
+
+  /* Radius Tokens */
+  --radius-main: 24px;
+  --radius-sub: 20px;
+  --radius-card: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #EFEFEF;
+  color: var(--color-point);
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 160%;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Mobile Frame Wrapper */
+.app-wrapper {
+  width: 100%;
+  max-width: 430px;
+  background-color: var(--color-bg-app);
+  min-height: 100vh;
+  position: relative;
+  box-shadow: 0 0 32px rgba(0,0,0,0.08);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background blob for glassmorphism */
+.bg-blob-1 {
+  position: absolute;
+  top: 10%;
+  left: -20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(26,91,255,0.12) 0%, rgba(26,91,255,0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-blob-2 {
+  position: absolute;
+  bottom: 20%;
+  right: -30%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(26,91,255,0.08) 0%, rgba(26,91,255,0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+h1, .font-h1 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 140%;
+  color: var(--color-point);
+  margin-bottom: 16px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}

@@ -1,0 +1,45 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputGroup label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-point);
+}
+
+.inputGroup input {
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid #DDDDDD;
+  border-radius: var(--radius-sub);
+  font-size: 15px;
+  outline: none;
+}
+
+.inputGroup input:focus {
+  border-color: var(--color-primary);
+}
+
+.submitBtn {
+  height: 56px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: var(--radius-sub);
+  transition: opacity 0.2s;
+}
+
+.submitBtn:hover {
+  opacity: 0.9;
+}

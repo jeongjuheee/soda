@@ -1,0 +1,93 @@
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.content {
+  background: var(--color-white);
+  padding: 32px;
+  border-radius: var(--radius-main);
+  width: 90%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-point);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.badge {
+  background-color: var(--color-sub);
+  color: var(--color-primary);
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+.section {
+  margin-bottom: 24px;
+}
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #666;
+  margin-bottom: 12px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.dataBox {
+  background-color: #F8F9FA;
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.dataLabel {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 4px;
+}
+.dataValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-point);
+}
+.warning {
+  color: #DC3545;
+}
+.aiReview {
+  background-color: var(--color-sub);
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-point);
+}
+.closeBtn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--color-point);
+  color: var(--color-white);
+  border-radius: var(--radius-sub);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}

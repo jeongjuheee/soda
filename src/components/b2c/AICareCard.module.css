@@ -1,0 +1,20 @@
+.card {
+  padding: 24px;
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-glass);
+  margin-bottom: 24px;
+}
+
+.header {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-point);
+  margin-bottom: 12px;
+}
+
+.aiMessage {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-primary);
+  font-weight: 500;
+}

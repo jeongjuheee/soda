@@ -1,0 +1,90 @@
+.card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-main);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-point);
+  display: flex;
+  align-items: center;
+}
+
+.matchRate {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-primary);
+  background-color: var(--color-sub);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.statLabel {
+  color: #999;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-weight: 700;
+  color: #333;
+}
+
+.keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.keywordChip {
+  font-size: 12px;
+  background-color: #F0F0F0;
+  color: #555;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.proposeBtn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-point);
+  color: var(--color-white);
+  border-radius: var(--radius-sub);
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}

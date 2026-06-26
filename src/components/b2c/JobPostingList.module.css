@@ -1,0 +1,44 @@
+.card {
+  background-color: var(--color-white);
+  padding: 24px;
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24px;
+}
+.header {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.jobItem {
+  padding: 16px;
+  border: 1px solid #EEE;
+  border-radius: var(--radius-sub);
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.jobItem:hover {
+  border-color: var(--color-primary);
+}
+.jobTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-point);
+  margin-bottom: 8px;
+}
+.companyName {
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.badge {
+  background-color: var(--color-sub);
+  color: var(--color-primary);
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+}

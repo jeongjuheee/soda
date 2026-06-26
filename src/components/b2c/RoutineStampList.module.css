@@ -1,0 +1,62 @@
+.card {
+  background-color: var(--color-white);
+  padding: 24px;
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.xpBadge {
+  background-color: var(--color-sub);
+  color: var(--color-primary);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.stampGrid {
+  display: flex;
+  gap: 12px;
+}
+
+.stamp {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #F0F0F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #CCC;
+}
+
+.stamp.active {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 4px 8px rgba(26, 91, 255, 0.3);
+}
+
+.actionBtn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 0;
+  background-color: var(--color-point);
+  color: var(--color-white);
+  border-radius: var(--radius-sub);
+  font-size: 15px;
+  font-weight: 600;
+}

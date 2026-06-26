@@ -1,0 +1,36 @@
+.banner {
+  background-color: var(--color-sub);
+  padding: 20px 24px;
+  border-radius: var(--radius-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.infoArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.welcomeText {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-point);
+  margin-bottom: 4px;
+}
+
+.subText {
+  font-size: 14px;
+  color: var(--color-primary);
+}
+
+.badge {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(26, 91, 255, 0.2);
+}
