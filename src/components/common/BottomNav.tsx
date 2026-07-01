@@ -1,72 +1,70 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, MessageSquare, Briefcase, Building, Zap, Lightbulb, User, Users, Inbox, Compass } from 'lucide-react';
-import styles from './BottomNav.module.css';
+import { Home, Zap, Star, Briefcase, User, Users, Inbox, Building2 } from 'lucide-react';
 
 export default function BottomNav() {
   const pathname = usePathname();
 
-  // 루트나 어드민은 네비게이션을 숨김
   if (pathname === '/' || pathname.includes('/admin')) return null;
 
   const isB2B = pathname.includes('/b2b');
-  const iconSize = 22;
-  const strokeW = 1.5;
+  const iconSize = 24;
+  const strokeW = 1.8;
 
-  if (isB2B) {
-    return (
-      <div className={styles.navWrapper}>
-        <nav className={styles.nav}>
-          <Link href="/b2b/dashboard" className={`${styles.navItem} ${pathname === '/b2b/dashboard' ? styles.active : ''}`}>
-            <Home size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-            <div className={styles.navDot} />
-          </Link>
-          <Link href="/b2b/search" className={`${styles.navItem} ${pathname.includes('/b2b/search') ? styles.active : ''}`}>
-            <Compass size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-            <div className={styles.navDot} />
-          </Link>
-          <Link href="/b2b/talk" className={`${styles.navItem} ${pathname.includes('/b2b/talk') ? styles.active : ''}`}>
-            <Inbox size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-            <div className={styles.navDot} />
-          </Link>
-          <Link href="/b2b/insight" className={`${styles.navItem} ${pathname.includes('/b2b/insight') ? styles.active : ''}`}>
-            <Lightbulb size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-            <div className={styles.navDot} />
-          </Link>
-          <Link href="/b2b/mypage" className={`${styles.navItem} ${pathname.includes('/b2b/mypage') ? styles.active : ''}`}>
-            <User size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-            <div className={styles.navDot} />
-          </Link>
-        </nav>
-      </div>
-    );
-  }
+  const navItems = isB2B ? [
+    { name: '홈', path: '/b2b/dashboard', icon: Home },
+    { name: '인재풀', path: '/b2b/search', icon: Users },
+    { name: '메시지', path: '/b2b/talk', icon: Inbox },
+    { name: '인사이트', path: '/b2b/insight', icon: Star },
+    { name: '마이', path: '/b2b/mypage', icon: Building2 }
+  ] : [
+    { name: '홈', path: '/b2c/dashboard', icon: Home },
+    { name: '챌린지', path: '/b2c/challenge', icon: Zap },
+    { name: '인사이트', path: '/b2c/insight', icon: Star },
+    { name: '채용', path: '/b2c/job', icon: Briefcase },
+    { name: '마이', path: '/b2c/mypage', icon: User }
+  ];
 
-  // B2C 개인용 5개 탭 매핑
   return (
-    <div className={styles.navWrapper}>
-      <nav className={styles.nav}>
-        <Link href="/b2c/dashboard" className={`${styles.navItem} ${pathname === '/b2c/dashboard' ? styles.active : ''}`}>
-          <Home size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-          <div className={styles.navDot} />
-        </Link>
-        <Link href="/b2c/challenge" className={`${styles.navItem} ${pathname.includes('/b2c/challenge') ? styles.active : ''}`}>
-          <Zap size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-          <div className={styles.navDot} />
-        </Link>
-        <Link href="/b2c/insight" className={`${styles.navItem} ${pathname.includes('/b2c/insight') ? styles.active : ''}`}>
-          <Lightbulb size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-          <div className={styles.navDot} />
-        </Link>
-        <Link href="/b2c/jobs" className={`${styles.navItem} ${pathname.includes('/b2c/jobs') ? styles.active : ''}`}>
-          <Briefcase size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-          <div className={styles.navDot} />
-        </Link>
-        <Link href="/b2c/mypage" className={`${styles.navItem} ${pathname.includes('/b2c/mypage') ? styles.active : ''}`}>
-          <User size={iconSize} strokeWidth={strokeW} className={styles.icon} />
-          <div className={styles.navDot} />
-        </Link>
+    <div style={{
+      position: 'fixed',
+      bottom: '30px', // 플로팅 효과
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: 'calc(100% - 48px)',
+      maxWidth: '382px',
+      background: '#FFF',
+      borderRadius: '40px', // 알약 형태
+      boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+      padding: '8px 16px',
+      zIndex: 50
+    }}>
+      <nav style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', height: '64px' }}>
+        {navItems.map((item) => {
+          const isActive = pathname.startsWith(item.path);
+          const Icon = item.icon;
+          
+          return (
+            <Link 
+              key={item.name} 
+              href={item.path} 
+              style={{
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                gap: '6px',
+                width: '60px',
+                color: isActive ? 'var(--color-primary)' : '#9B9BA3',
+                transition: 'all 0.2s'
+              }}
+            >
+              <Icon size={iconSize} strokeWidth={isActive ? 2.5 : strokeW} />
+              <span style={{ fontSize: '10px', fontWeight: 700 }}>{item.name}</span>
+            </Link>
+          );
+        })}
       </nav>
     </div>
   );

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SODA 챌린지 상세 화면 — 개발 전달용 와이어프레임</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    background: #F4F5F8;
+    color: #1A1A1E;
+    padding: 48px 32px;
+  }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #8E8E96; margin-bottom: 40px; }
+
+  .layout { display:flex; gap: 40px; max-width: 1100px; flex-wrap:wrap; }
+
+  .phone-col { flex-shrink:0; }
+  .phone { background: #fff; border-radius: 40px; padding: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); width: 320px; position:relative; }
+  .sheet-mock { background:#fff; border-radius: 30px; padding: 18px 18px 22px; position:relative; }
+
+  .callout-dot { position:absolute; width:20px; height:20px; border-radius:50%; background:#4A7BF0; color:#fff; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(74,123,240,0.4); z-index:5; }
+
+  .handle { width:36px; height:4px; background:#E5E5EA; border-radius:4px; margin:4px auto 14px; }
+  .close-x { position:absolute; top:12px; right:16px; width:26px; height:26px; border-radius:50%; background:#F4F4F7; display:flex; align-items:center; justify-content:center; font-size:11px; color:#8E8E96; }
+
+  .cat-tag { font-size: 10px; font-weight:800; color:#4A7BF0; background:#EEF2FE; padding:4px 10px; border-radius:9px; display:inline-block; margin-bottom:8px; }
+  .title { font-size: 16px; font-weight:800; margin-bottom:4px; }
+  .sub { font-size:10.5px; color:#9B9BA3; margin-bottom:16px; }
+
+  .ring-wrap { display:flex; justify-content:center; padding: 4px 0 14px; }
+  .ring { width:88px; height:88px; border-radius:50%; background: conic-gradient(#4A7BF0 0% 60%, #F0F0F4 60% 100%); display:flex; align-items:center; justify-content:center; }
+  .ring-inner { width:72px; height:72px; border-radius:50%; background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .ring-pct { font-size:17px; font-weight:800; color:#4A7BF0; }
+  .ring-label { font-size:8.5px; color:#B0B0B8; font-weight:700; }
+
+  .info-row { display:flex; justify-content:space-between; background:#F8F9FC; border-radius:14px; padding:13px; margin-bottom:13px; }
+  .info-item { text-align:center; flex:1; }
+  .info-val { font-size:12px; font-weight:800; }
+  .info-label { font-size:9px; color:#9B9BA3; margin-top:3px; }
+
+  .sec-title { font-size:11.5px; font-weight:800; margin: 12px 0 7px; }
+  .day-row { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:13px; }
+  .day { width:27px; height:27px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:9.5px; font-weight:700; }
+  .day.done { background:#4A7BF0; color:#fff; }
+  .day.today { background:#fff; border:2px solid #4A7BF0; color:#4A7BF0; }
+  .day.future { background:#F4F4F7; color:#C5C5CC; }
+
+  .btn { width:100%; border:none; border-radius:14px; padding:13px; font-size:12px; font-weight:800; font-family:inherit; margin-top:7px; }
+  .btn-main { background:#4A7BF0; color:#fff; }
+  .btn-leave { background:#FFF1F1; color:#E0455A; }
+
+  .spec-col { flex:1; min-width: 380px; }
+  .spec-section { background:#fff; border-radius:18px; padding: 18px 20px; margin-bottom:16px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+  .spec-section-title { font-size:13px; font-weight:800; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .spec-num { width:20px; height:20px; border-radius:50%; background:#4A7BF0; color:#fff; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  table { width:100%; border-collapse:collapse; font-size:11.5px; }
+  th, td { text-align:left; padding: 7px 8px; border-bottom:1px solid #F4F4F7; }
+  th { color:#9B9BA3; font-weight:700; font-size:10.5px; }
+  td { color:#3A3A42; }
+  td code { background:#F4F4F7; padding:1px 6px; border-radius:5px; font-size:10.5px; color:#4A7BF0; }
+  .note-box { font-size:11px; color:#6B6B73; background:#F8F9FC; border-radius:12px; padding:12px 14px; margin-top:10px; line-height:1.7; }
+</style>
+</head>
+<body>
+
+<h1>SODA 챌린지 상세 화면 — 개발 전달용 와이어프레임</h1>
+<p class="subtitle">"참여중인 챌린지" 카드 클릭 시 진입하는 바텀시트 · 화면 구조 + 데이터 + 인터랙션 스펙</p>
+
+<div class="layout">
+
+  <div class="phone-col">
+    <div class="phone">
+      <div class="sheet-mock">
+        <div class="callout-dot" style="top:8px; left:8px;">1</div>
+        <div class="handle"></div>
+        <div class="close-x">✕</div>
+        <div class="callout-dot" style="top:48px; left:8px;">2</div>
+        <div class="cat-tag">자기계발</div>
+        <div class="title">매일 30분 독서 챌린지</div>
+        <div class="sub">D-12 남음 · 1,204명 참여중</div>
+
+        <div class="callout-dot" style="top:175px; left:8px;">3</div>
+        <div class="ring-wrap">
+          <div class="ring">
+            <div class="ring-inner">
+              <div class="ring-pct">60%</div>
+              <div class="ring-label">달성률</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout-dot" style="top:320px; left:8px;">4</div>
+        <div class="info-row">
+          <div class="info-item"><div class="info-val">18 / 30일</div><div class="info-label">진행 일수</div></div>
+          <div class="info-item"><div class="info-val">+50 SP</div><div class="info-label">완주 보상</div></div>
+          <div class="info-item"><div class="info-val">🔥 6일</div><div class="info-label">연속 인증</div></div>
+        </div>
+
+        <div class="callout-dot" style="top:400px; left:8px;">5</div>
+        <div class="sec-title">최근 인증 기록</div>
+        <div class="day-row">
+          <div class="day done">✓</div><div class="day done">✓</div><div class="day done">✓</div>
+          <div class="day done">✓</div><div class="day done">✓</div><div class="day done">✓</div>
+          <div class="day today">7</div><div class="day future">8</div><div class="day future">9</div><div class="day future">10</div>
+        </div>
+
+        <div class="callout-dot" style="top:500px; left:8px;">6</div>
+        <button class="btn btn-main">오늘 루틴 인증하기</button>
+        <button class="btn btn-leave">챌린지 그만하기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-col">
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">1</span>진입 방식 / 화면 타입</div>
+      <table>
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td>화면 타입</td><td>바텀시트 (Bottom Sheet) — 화면 하단에서 올라오는 모달</td></tr>
+        <tr><td>진입 트리거</td><td>홈 또는 챌린지 탭에서 "참여중인 챌린지" 카드 탭</td></tr>
+        <tr><td>닫기 방법</td><td>① 우상단 ✕ 버튼 ② 시트 바깥 영역(딤 처리된 배경) 탭 ③ 시트를 아래로 드래그</td></tr>
+        <tr><td>애니메이션</td><td>하단에서 위로 슬라이드업 <code>translateY(100%) → 0</code>, 0.3초, ease-out 계열</td></tr>
+      </table>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">2</span>상단 정보 영역</div>
+      <table>
+        <tr><th>요소</th><th>데이터 바인딩</th></tr>
+        <tr><td>카테고리 태그</td><td><code>challenge.category</code> — 카테고리별 색상 프리셋 적용 (자기계발=블루, 커리어=옐로우 등)</td></tr>
+        <tr><td>챌린지 제목</td><td><code>challenge.title</code></td></tr>
+        <tr><td>서브 텍스트</td><td><code>D-{remainingDays}</code> 남음 · <code>{participantCount}</code>명 참여중</td></tr>
+      </table>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">3</span>진행률 원형 그래프</div>
+      <table>
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td>계산식</td><td><code>달성률(%) = (인증완료일수 / 전체기간일수) × 100</code></td></tr>
+        <tr><td>표시</td><td>원형 도넛 그래프(conic-gradient 또는 SVG circle stroke-dasharray), 중앙에 퍼센트 숫자</td></tr>
+        <tr><td>컬러</td><td>채워진 부분: 메인컬러 #4A7BF0 / 빈 부분: #F0F0F4</td></tr>
+      </table>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">4</span>정보 요약 3분할</div>
+      <table>
+        <tr><th>항목</th><th>데이터</th></tr>
+        <tr><td>진행 일수</td><td><code>{인증완료일수} / {전체기간일수}일</code></td></tr>
+        <tr><td>완주 보상</td><td><code>+{challenge.reward} SP</code> — 완주 시점에 사용자 SP에 가산</td></tr>
+        <tr><td>연속 인증</td><td><code>🔥 {streakDays}일</code> — 하루라도 인증을 건너뛰면 0으로 리셋</td></tr>
+      </table>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">5</span>최근 인증 기록</div>
+      <table>
+        <tr><th>상태</th><th>표시 조건</th></tr>
+        <tr><td>완료 (done)</td><td>해당 일차에 인증 기록이 있는 경우 — 블루 배경 + 체크 아이콘</td></tr>
+        <tr><td>오늘 (today)</td><td>현재 진행중인 일차, 아직 인증 전 — 화이트 배경 + 블루 테두리 + 일차 숫자</td></tr>
+        <tr><td>예정 (future)</td><td>아직 도래하지 않은 일차 — 연한 그레이 배경 + 흐린 숫자</td></tr>
+      </table>
+      <div class="note-box">최근 10일 정도만 노출, 전체 기록은 별도 "전체 기록 보기"로 확장 가능 (현재 와이어프레임엔 미포함, 필요 시 추가 논의)</div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">6</span>하단 액션 버튼</div>
+      <table>
+        <tr><th>버튼</th><th>동작</th></tr>
+        <tr><td>오늘 루틴 인증하기</td><td>탭 시 인증 처리 → <code>doneDays +1</code>, <code>streak +1</code>, SP 지급(+10 SP 등 루틴 단위 보상) → 완료 토스트 노출 → 시트 닫힘</td></tr>
+        <tr><td>챌린지 그만하기</td><td>탭 시 확인 모달("정말 그만두시겠어요?") → 확인 시 참여중 리스트에서 제거, 진행 데이터 삭제</td></tr>
+      </table>
+      <div class="note-box">"오늘 루틴 인증하기" 버튼은 이미 오늘 인증을 완료한 상태라면 비활성화 처리(회색) + 텍스트를 "오늘 인증 완료 ✓"로 변경 필요</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

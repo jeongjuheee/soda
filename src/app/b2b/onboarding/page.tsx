@@ -35,6 +35,10 @@ export default function B2BOnboarding() {
   const [bizNumber, setBizNumber] = useState('');
   const [companyId, setCompanyId] = useState('');
 
+  // NTS Validation States
+  const [ntsMsg, setNtsMsg] = useState<{ text: string; type: 'error' | 'success' | '' }>({ text: '', type: '' });
+  const [isNtsLoading, setIsNtsLoading] = useState(false);
+
   // 계산된 결과
   const [primaryType, setPrimaryType] = useState('크래프트장인형');
   const [secondaryType, setSecondaryType] = useState('시스템안착형');
@@ -94,26 +98,56 @@ export default function B2BOnboarding() {
   };
 
   const handleSignupAndStart = async () => {
-    if (!bizNumber) return alert('사업자 등록번호를 입력해주세요.');
+    if (!bizNumber) return setNtsMsg({ text: '사업자 등록번호 10자리를 입력해주세요.', type: 'error' });
+    if (bizNumber.replace(/-/g, '').length !== 10) return setNtsMsg({ text: '사업자 등록번호는 10자리여야 합니다.', type: 'error' });
+
+    setIsNtsLoading(true);
+    setNtsMsg({ text: '', type: '' });
+
     try {
-      const res = await fetch('/api/auth/b2b-signup', {
+      // 1. 국세청 상태조회 API 호출
+      const ntsRes = await fetch('/api/nts/validate-business', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          biz_number: bizNumber,
-          company_name: '루메나 (임시)',
-          manager_name: '김소다',
-          manager_phone: '010-0000-0000'
-        })
+        body: JSON.stringify({ biz_number: bizNumber.replace(/-/g, '') })
       });
-      const data = await res.json();
-      if (data.success && data.company_id) {
-        setCompanyId(data.company_id);
+      const ntsData = await ntsRes.json();
+
+      if (ntsData.b_stt_cd === '01') {
+        setNtsMsg({ text: '✓ 인증 완료', type: 'success' });
+        
+        // 2. 정상 사업자인 경우 구글 시트 가입 진행
+        const res = await fetch('/api/auth/b2b-signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            biz_number: bizNumber.replace(/-/g, ''),
+            company_name: '루메나 (임시)',
+            manager_name: '김소다',
+            manager_phone: '010-0000-0000'
+          })
+        });
+        const data = await res.json();
+        if (data.success && data.company_id) {
+          setCompanyId(data.company_id);
+        }
+        
+        // 약간의 딜레이 후 다음 스텝으로 이동 (성공 메시지 보여주기 위함)
+        setTimeout(() => setStep(2), 800);
+
+      } else if (ntsData.b_stt_cd === '02') {
+        setNtsMsg({ text: '❌ 현재 휴업 중인 사업자등록번호입니다.', type: 'error' });
+      } else if (ntsData.b_stt_cd === '03') {
+        setNtsMsg({ text: '❌ 폐업된 사업자등록번호로는 가입할 수 없습니다.', type: 'error' });
+      } else {
+        setNtsMsg({ text: '❌ 국세청에 등록되지 않은 국세청 유효성 오류 번호입니다.', type: 'error' });
       }
-      setStep(2);
+
     } catch (e) {
       console.error(e);
-      alert('오류가 발생했습니다.');
+      setNtsMsg({ text: '❌ 국세청 서버 통신 오류가 발생했습니다.', type: 'error' });
+    } finally {
+      setIsNtsLoading(false);
     }
   };
 
@@ -141,12 +175,19 @@ export default function B2BOnboarding() {
               <p style={{ fontSize: '14px', color: '#8E8E93', marginBottom: '32px' }}>기업 회원은 사업자 인증이 필수입니다.</p>
               
               <label style={{ fontSize: '13px', fontWeight: 600, color: '#1C1C1E', display: 'block', marginBottom: '8px' }}>사업자 등록번호</label>
-              <input type="text" placeholder="'-' 없이 10자리 입력" value={bizNumber} onChange={e => setBizNumber(e.target.value)} style={{ width: '100%', padding: '16px', borderRadius: '12px', border: '1px solid #E5E5EA', fontSize: '15px', marginBottom: '16px' }} />
+              <input type="text" placeholder="'-' 없이 10자리 입력" value={bizNumber} onChange={e => setBizNumber(e.target.value)} style={{ width: '100%', padding: '16px', borderRadius: '12px', border: ntsMsg.type === 'error' ? '1px solid #FF3B30' : ntsMsg.type === 'success' ? '1px solid #34C759' : '1px solid #E5E5EA', fontSize: '15px', marginBottom: '8px', transition: 'border-color 0.2s' }} />
+              
+              {/* NTS Error / Success Message */}
+              <div style={{ minHeight: '20px', marginBottom: '16px', fontSize: '13px', fontWeight: 500, color: ntsMsg.type === 'error' ? '#FF3B30' : '#34C759', transition: 'opacity 0.2s', opacity: ntsMsg.text ? 1 : 0 }}>
+                {ntsMsg.text}
+              </div>
+
               <button 
                 onClick={handleSignupAndStart}
-                style={{ width: '100%', padding: '16px', background: '#1C1C1E', color: '#fff', borderRadius: '12px', fontSize: '15px', fontWeight: 600, border: 'none' }}
+                disabled={isNtsLoading || ntsMsg.type === 'success'}
+                style={{ width: '100%', padding: '16px', background: isNtsLoading ? '#E5E5EA' : ntsMsg.type === 'success' ? '#34C759' : '#1C1C1E', color: isNtsLoading ? '#8E8E93' : '#fff', borderRadius: '12px', fontSize: '15px', fontWeight: 600, border: 'none', cursor: isNtsLoading || ntsMsg.type === 'success' ? 'not-allowed' : 'pointer', transition: 'background-color 0.2s' }}
               >
-                인증 완료 및 진단 시작
+                {isNtsLoading ? '국세청 조회 중...' : ntsMsg.type === 'success' ? '인증 완료' : '인증 완료 및 진단 시작'}
               </button>
             </div>
           </div>

@@ -1,0 +1,131 @@
+.sodaContainer {
+  position: relative;
+  width: 140px;
+  height: 160px;
+  margin: 0 auto;
+  cursor: pointer;
+  /* 공통으로 적용될 수도 있으나 보통 svg 컨테이너 레벨에서 지정 */
+}
+
+/* 모든 레이어는 절대 위치로 겹침 */
+.sodaLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center bottom;
+  pointer-events: none; /* 클릭 이벤트는 부모 래퍼에서만 */
+}
+
+/* 그림자는 바닥에 고정되지만, 캐릭터 부유 시 크기만 변함 */
+.sodaShadow {
+  transform-origin: center center;
+  animation: shadowPulse 3.2s ease-in-out infinite;
+}
+
+/* 부유(Float) 모션 전용 래퍼 */
+.sodaFloatWrapper {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  transform-origin: center bottom;
+  animation: float 3.2s ease-in-out infinite;
+}
+
+/* 스쿼시(Squash) 모션 전용 래퍼 */
+.sodaSquashWrapper {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  transform-origin: center bottom;
+}
+
+/* 졸림 상태의 축 처진 무거운 모션 */
+.isSleepy .sodaFloatWrapper {
+  animation: floatHeavy 4s ease-in-out infinite;
+}
+.isSleepy .sodaShadow {
+  animation: shadowPulseHeavy 4s ease-in-out infinite;
+}
+
+/* 응원 시 모션 */
+.isCheering .sodaFloatWrapper {
+  animation: floatCheer 3.2s ease-in-out infinite;
+}
+
+/* 탭 스쿼시 모션 */
+.isSquashing .sodaSquashWrapper {
+  animation: squash 0.55s cubic-bezier(0.36, 1.6, 0.4, 1) !important;
+}
+
+/* 키프레임 정의 */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shadowPulse {
+  0%, 100% { transform: scale(1); opacity: 0.12; }
+  50% { transform: scale(0.75); opacity: 0.08; }
+}
+
+/* 졸림 모션 (아래로 축 처짐) */
+@keyframes floatHeavy {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(3px) scale(1.02, 0.98); }
+}
+
+@keyframes shadowPulseHeavy {
+  0%, 100% { transform: scale(1); opacity: 0.12; }
+  50% { transform: scale(1.05); opacity: 0.15; }
+}
+
+/* 응원 모션 (위아래 부유 + 좌우 흔들림) */
+@keyframes floatCheer {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(-4deg); }
+  50% { transform: translateY(-6px) rotate(0deg); }
+  75% { transform: translateY(-3px) rotate(4deg); }
+}
+
+/* 스쿼시앤스트레치 */
+@keyframes squash {
+  0% { transform: scale(1, 1); }
+  20% { transform: scale(1.18, 0.78); }
+  50% { transform: scale(0.88, 1.16); }
+  100% { transform: scale(1, 1); }
+}
+
+/* 레벨 및 액세서리 디스플레이 제어 */
+/* 기본적으로 숨김 */
+.itemSprout, .itemRibbon, .itemSunglasses, .itemCrown, .itemSparkles {
+  display: none;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+/* Lv.1 이상: 새싹 표시 */
+.lv1 .itemSprout, .lv2 .itemSprout, .lv3 .itemSprout, .lv4 .itemSprout {
+  display: block;
+}
+
+/* Lv.2 이상: 리본 표시 */
+.lv2 .itemRibbon, .lv3 .itemRibbon, .lv4 .itemRibbon {
+  display: block;
+}
+
+/* Lv.3 이상: 선글라스 표시 (단 졸릴 땐 opacity 0 또는 안보이게 로직 제어 가능) */
+.lv3 .itemSunglasses, .lv4 .itemSunglasses {
+  display: block;
+}
+
+/* Lv.4 전용: 왕관 & 파티클 */
+.lv4 .itemCrown, .lv4 .itemSparkles {
+  display: block;
+}
+
+/* 상위 레벨일 때 하위 액세서리 투명도 조절 (가이드라인) */
+.lv4 .itemSprout { opacity: 0.9; }
+.lv4 .itemRibbon { opacity: 0.7; }
+.lv4 .itemSunglasses { opacity: 0.8; }

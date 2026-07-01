@@ -1,4 +1,5 @@
 'use client';
+import { Settings } from 'lucide-react';
 
 export default function B2CMyPage() {
   return (
@@ -7,17 +8,17 @@ export default function B2CMyPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1 style={{ fontSize: '20px', fontWeight: 700, margin: 0, color: '#1C1C1E' }}>마이페이지</h1>
-        <span style={{ fontSize: '20px', color: '#8E8E93' }}>⚙️</span>
+        <Settings size={20} color="#8E8E93" strokeWidth={2} style={{ cursor: 'pointer' }} />
       </div>
 
       {/* Profile Card */}
       <div style={{ background: '#fff', borderRadius: '16px', padding: '16px', border: '1px solid #E5E5EA', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#EAF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 600, color: '#0071E3', flexShrink: 0 }}>
-            주
+            소
           </div>
           <div>
-            <div style={{ fontSize: '16px', fontWeight: 700, color: '#1C1C1E', marginBottom: '2px' }}>주리님</div>
+            <div style={{ fontSize: '16px', fontWeight: 700, color: '#1C1C1E', marginBottom: '2px' }}>소다님</div>
             <div style={{ fontSize: '12px', color: '#8E8E93', marginBottom: '6px' }}>방전형 · 브랜드 마케터 지망</div>
             <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '10px', background: '#EAF2FF', color: '#0071E3', borderRadius: '6px', padding: '3px 8px', fontWeight: 600 }}>💎 크래프트장인형</span>

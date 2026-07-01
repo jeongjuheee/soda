@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SODA 챌린지 탭 — 인터랙티브 버전</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    background: #EFEFF2;
+    color: #1A1A1E;
+    padding: 48px 32px;
+  }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #8E8E96; margin-bottom: 40px; }
+
+  .phone { background: #fff; border-radius: 44px; padding: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12); width: 340px; position:relative; height: 720px; overflow:hidden; }
+  .screen { background: #FFFFFF; border-radius: 36px; padding: 0 0 14px; display: flex; flex-direction: column; height: 100%; overflow-y:auto; position:relative; }
+
+  .status-bar { display:flex; justify-content:space-between; align-items:center; padding: 14px 22px 4px; font-size:11px; font-weight:700; }
+
+  .top-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px 4px; }
+  .header-title { font-size: 18px; font-weight: 800; }
+  .icon-btn { width: 32px; height: 32px; border-radius: 50%; background: #F4F4F7; display:flex; align-items:center; justify-content:center; }
+
+  .content { padding: 14px 20px 0; display:flex; flex-direction:column; gap: 14px; flex:1; }
+
+  .mini-pet-widget { display:flex; align-items:center; gap:12px; background: linear-gradient(135deg, #EEF2FE, #E2EAFE); border-radius:20px; padding: 13px 15px; cursor:pointer; }
+  .mini-pet-info { flex:1; }
+  .mini-pet-name { font-size:12.5px; font-weight:800; }
+  .mini-track-wrap { background:#D7E0FB; border-radius:8px; height:6px; margin-top:7px; overflow:hidden; }
+  .mini-track-fill { height:100%; background:#4A7BF0; border-radius:8px; }
+  .mini-pet-label { font-size:9.5px; color:#7A8BB5; margin-top:4px; font-weight:600; }
+
+  @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-4px);} }
+  .floaty { animation: float 3.2s ease-in-out infinite; transform-origin:center bottom; }
+  @keyframes squash {
+    0% { transform: scale(1,1); } 30%{transform:scale(1.18,.78);} 55%{transform:scale(.88,1.16);} 75%{transform:scale(1.05,.95);} 100%{transform:scale(1,1);}
+  }
+  .squashing { animation: squash .55s cubic-bezier(.36,1.6,.4,1) !important; }
+
+  .tab-pill-row { display:flex; gap:7px; }
+  .tab-pill { font-size:11px; font-weight:700; padding:8px 14px; border-radius:13px; background:#F4F4F7; color:#9B9BA3; border:none; font-family:inherit; cursor:pointer; }
+  .tab-pill.active { background:#4A7BF0; color:#fff; }
+
+  .section-label { font-size: 12.5px; font-weight: 800; color:#3A3A42; margin-top:4px; }
+  .section-row { display:flex; justify-content:space-between; align-items:center; margin-top:4px; }
+  .see-all { font-size: 10.5px; font-weight:700; color:#9B9BA3; }
+
+  .challenge-card { background:#fff; border:1px solid #F0EFF5; border-radius:20px; padding:15px; display:flex; flex-direction:column; gap:10px; cursor:pointer; transition: transform 0.15s; }
+  .challenge-card:active { transform: scale(0.98); }
+  .challenge-top { display:flex; justify-content:space-between; align-items:flex-start; }
+  .challenge-cat { font-size: 9.5px; font-weight:800; color:#4A7BF0; background:#EEF2FE; padding:3px 9px; border-radius:8px; display:inline-block; margin-bottom:6px; }
+  .challenge-title { font-size:13px; font-weight:800; }
+  .challenge-sub { font-size:10.5px; color:#9B9BA3; margin-top:3px; }
+  .challenge-ring { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .challenge-ring-inner { width:34px; height:34px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-size:9.5px; font-weight:800; color:#4A7BF0; }
+  .challenge-bottom-row { display:flex; justify-content:space-between; align-items:center; }
+  .challenge-people { font-size:10px; color:#B0B0B8; }
+  .challenge-reward { font-size:10.5px; font-weight:800; color:#4A7BF0; }
+
+  .empty-state { text-align:center; padding: 24px 16px; color:#B0B0B8; font-size:11.5px; background:#FAFAFC; border-radius:18px; border:1.5px dashed #E5E5EA; }
+
+  .reco-card { background:#fff; border:2px solid #EEF2FE; border-radius:20px; padding:16px; transition: opacity 0.2s; }
+  .reco-tag { display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:800; color:#4A7BF0; background:#EEF2FE; padding:5px 11px; border-radius:10px; margin-bottom:10px; }
+  .reco-title { font-size:14px; font-weight:800; margin-bottom:10px; }
+  .reco-row { display:flex; justify-content:space-between; align-items:center; }
+  .reco-pills { display:flex; gap:6px; }
+  .reco-pill { font-size:10px; font-weight:700; color:#6B6B73; background:#F4F4F7; padding:5px 10px; border-radius:9px; display:inline-flex; align-items:center; gap:4px; }
+  .reco-cta { font-size:11px; font-weight:800; color:#fff; background:#4A7BF0; padding:9px 18px; border-radius:12px; flex-shrink:0; border:none; font-family:inherit; cursor:pointer; }
+  .reco-cta.joined { background:#E5E5EA; color:#9B9BA3; }
+
+  .nav-wrap { padding: 10px 16px 0; margin-top:auto; }
+  .nav { display: flex; justify-content: space-around; align-items: center; background: #fff; border-radius: 24px; padding: 12px 6px; box-shadow: 0 -2px 14px rgba(0,0,0,0.05); border: 1px solid #F4F4F7; }
+  .nav-item { display:flex; flex-direction:column; align-items:center; gap:3px; opacity: 0.35; }
+  .nav-item.active { opacity: 1; }
+  .nav-item.active .nav-label { color:#4A7BF0; }
+  .nav-item svg { width:22px; height:22px; }
+  .nav-label { font-size: 8.5px; font-weight:700; }
+
+  .sheet-overlay { position:absolute; inset:0; background:rgba(20,24,40,0.4); opacity:0; pointer-events:none; transition:opacity 0.25s; border-radius:44px; z-index:10; }
+  .sheet-overlay.open { opacity:1; pointer-events:auto; }
+  .sheet { position:absolute; left:0; right:0; bottom:0; background:#fff; border-radius:28px 28px 0 0; padding:10px 20px 24px; transform:translateY(100%); transition:transform 0.3s cubic-bezier(.32,.72,0,1); z-index:11; max-height:88%; overflow-y:auto; }
+  .sheet.open { transform:translateY(0); }
+  .sheet-handle { width:36px; height:4px; background:#E5E5EA; border-radius:4px; margin:6px auto 14px; }
+  .sheet-close { position:absolute; top:14px; right:18px; width:28px; height:28px; border-radius:50%; background:#F4F4F7; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:12px; color:#8E8E96; }
+  .sheet-cat { font-size: 10px; font-weight:800; color:#4A7BF0; background:#EEF2FE; padding:4px 10px; border-radius:9px; display:inline-block; margin-bottom:8px; }
+  .sheet-title { font-size: 17px; font-weight:800; margin-bottom:4px; }
+  .sheet-sub { font-size:11px; color:#9B9BA3; margin-bottom:16px; }
+  .sheet-ring-wrap { display:flex; justify-content:center; padding: 6px 0 16px; }
+  .sheet-ring { width:96px; height:96px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  .sheet-ring-inner { width:78px; height:78px; border-radius:50%; background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .sheet-ring-pct { font-size:18px; font-weight:800; color:#4A7BF0; }
+  .sheet-ring-label { font-size:9px; color:#B0B0B8; font-weight:700; }
+  .sheet-info-row { display:flex; justify-content:space-between; background:#F8F9FC; border-radius:16px; padding:14px; margin-bottom:14px; }
+  .sheet-info-item { text-align:center; flex:1; }
+  .sheet-info-val { font-size:13px; font-weight:800; }
+  .sheet-info-label { font-size:9.5px; color:#9B9BA3; margin-top:3px; }
+  .sheet-section-title { font-size:12.5px; font-weight:800; margin: 14px 0 8px; }
+  .sheet-day-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+  .sheet-day { width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; }
+  .sheet-day.done { background:#4A7BF0; color:#fff; }
+  .sheet-day.today { background:#fff; border:2px solid #4A7BF0; color:#4A7BF0; }
+  .sheet-day.future { background:#F4F4F7; color:#C5C5CC; }
+  .sheet-cta-btn { width:100%; background:#4A7BF0; color:#fff; border:none; border-radius:16px; padding:15px; font-size:13px; font-weight:800; font-family:inherit; margin-top:8px; cursor:pointer; }
+  .sheet-cta-btn.leave { background:#FFF1F1; color:#E0455A; }
+
+  .annotation { max-width: 340px; margin-top: 20px; }
+  .anno-item { font-size: 11px; color:#6B6B73; margin-bottom: 6px; line-height:1.6; }
+  .anno-item b { color:#3661D6; }
+</style>
+</head>
+<body>
+
+<h1>SODA 챌린지 탭 — 인터랙티브 버전</h1>
+<p class="subtitle">참여 / 참여중 용어 통일 · 메인컬러 버튼 · 실제 동작하는 참여 플로우 + 상세 바텀시트</p>
+
+<div class="phone">
+  <div class="screen" id="screen">
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>●●● 5G 🔋</span>
+    </div>
+
+    <div class="top-row">
+      <div class="header-title">챌린지</div>
+      <div class="icon-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="7" stroke="#57575F" stroke-width="1.8"/>
+          <path d="M16.5 16.5L21 21" stroke="#57575F" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="mini-pet-widget" onclick="squash(this)">
+        <svg class="floaty" width="46" height="52" viewBox="0 0 140 150" style="flex-shrink:0;">
+          <defs>
+            <radialGradient id="miniM" cx="35%" cy="28%" r="80%">
+              <stop offset="0%" stop-color="#fff"/>
+              <stop offset="45%" stop-color="#D6E2FF"/>
+              <stop offset="100%" stop-color="#fff" stop-opacity="0.85"/>
+            </radialGradient>
+          </defs>
+          <path d="M70 12 C100 10, 126 34, 128 64 C130 90, 116 112, 92 120 C92 128, 78 130, 70 124 C62 130, 48 128, 48 120 C24 112, 10 90, 12 64 C14 34, 40 10, 70 12 Z" fill="url(#miniM)"/>
+          <rect x="50" y="68" width="20" height="14" rx="7" fill="#1A1A2E"/>
+          <rect x="80" y="68" width="20" height="14" rx="7" fill="#1A1A2E"/>
+          <rect x="70" y="72" width="10" height="3" fill="#1A1A2E"/>
+          <path d="M70 20 C70 20, 62 10, 50 13 C44 15, 44 23, 50 25 C58 27, 66 22, 70 20 Z" fill="#FF6B9D"/>
+          <path d="M70 20 C70 20, 78 10, 90 13 C96 15, 96 23, 90 25 C82 27, 74 22, 70 20 Z" fill="#FF85AC"/>
+          <circle cx="70" cy="20" r="4.5" fill="#E8528A"/>
+          <path d="M58 92 Q75 102 92 92" stroke="#16234F" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="mini-pet-info">
+          <div class="mini-pet-name">반짝소다 Lv.3 · 860 SP</div>
+          <div class="mini-track-wrap"><div class="mini-track-fill" style="width:72%;"></div></div>
+          <div class="mini-pet-label">다음 진화까지 340 SP 남음</div>
+        </div>
+      </div>
+
+      <div class="tab-pill-row">
+        <button class="tab-pill active">진행중</button>
+        <button class="tab-pill">완료</button>
+        <button class="tab-pill">전체</button>
+      </div>
+
+      <div class="section-label">참여중인 챌린지</div>
+      <div id="joinedList"></div>
+
+      <div class="section-row">
+        <div class="section-label">이런 챌린지는 어때요?</div>
+        <div class="see-all">전체보기 →</div>
+      </div>
+      <div id="recoList"></div>
+
+    </div>
+
+    <div class="nav-wrap">
+      <div class="nav">
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 11L12 4L20 11V20H14V14H10V20H4V11Z" stroke="#8E8E96" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <span class="nav-label">홈</span>
+        </div>
+        <div class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M13 3L5 13H11L9 21L19 9H13L15 3H13Z" stroke="#4A7BF0" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <span class="nav-label">챌린지</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L14.5 9.2L21 9.8L16 14.1L17.5 20.5L12 17L6.5 20.5L8 14.1L3 9.8L9.5 9.2L12 3Z" stroke="#8E8E96" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <span class="nav-label">인사이트</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="16" height="11" rx="1.5" stroke="#8E8E96" stroke-width="1.8"/><path d="M9 8V6.5C9 5.4 9.9 4.5 11 4.5H13C14.1 4.5 15 5.4 15 6.5V8" stroke="#8E8E96" stroke-width="1.8"/></svg>
+          <span class="nav-label">채용</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.3" stroke="#8E8E96" stroke-width="1.8"/><path d="M5 20C5 16.5 8 14 12 14C16 14 19 16.5 19 20" stroke="#8E8E96" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span class="nav-label">마이</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-close" onclick="closeSheet()">✕</div>
+    <div class="sheet-cat" id="sheetCat">자기계발</div>
+    <div class="sheet-title" id="sheetTitle">매일 30분 독서 챌린지</div>
+    <div class="sheet-sub" id="sheetSub">D-12 남음 · 1,204명 참여중</div>
+
+    <div class="sheet-ring-wrap">
+      <div class="sheet-ring" id="sheetRing">
+        <div class="sheet-ring-inner">
+          <div class="sheet-ring-pct" id="sheetPct">60%</div>
+          <div class="sheet-ring-label">달성률</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet-info-row">
+      <div class="sheet-info-item">
+        <div class="sheet-info-val" id="sheetDay">18 / 30일</div>
+        <div class="sheet-info-label">진행 일수</div>
+      </div>
+      <div class="sheet-info-item">
+        <div class="sheet-info-val" id="sheetReward">+50 SP</div>
+        <div class="sheet-info-label">완주 보상</div>
+      </div>
+      <div class="sheet-info-item">
+        <div class="sheet-info-val" id="sheetStreak">🔥 6일</div>
+        <div class="sheet-info-label">연속 인증</div>
+      </div>
+    </div>
+
+    <div class="sheet-section-title">최근 인증 기록</div>
+    <div class="sheet-day-row" id="sheetDays"></div>
+
+    <button class="sheet-cta-btn" id="sheetMainBtn" onclick="certifyToday()">오늘 루틴 인증하기</button>
+    <button class="sheet-cta-btn leave" onclick="leaveChallenge()">챌린지 그만하기</button>
+  </div>
+</div>
+
+<div class="annotation">
+  <div class="anno-item"><b>① 용어 통일</b> — "구독" → "참여" / "참여중"으로 동일 의미는 동일 단어로</div>
+  <div class="anno-item"><b>② 버튼 컬러</b> — CTA 전부 메인컬러(#4A7BF0)로 통일</div>
+  <div class="anno-item"><b>③ 실제 동작</b> — 추천 카드 "참여" 클릭 → 참여중 리스트 맨 위로 즉시 이동, 버튼은 "참여중"으로 비활성화 표시</div>
+  <div class="anno-item"><b>④ 상세 바텀시트</b> — 참여중인 챌린지 카드 클릭 시 진행률·인증기록·보상 정보가 담긴 상세 화면이 아래에서 올라옴</div>
+</div>
+
+<script>
+let joinedData = [
+  { id:'reading', cat:'자기계발', catColor:'#EEF2FE', catText:'#4A7BF0', title:'매일 30분 독서 챌린지', dday:'D-12', people:'1,204', pct:60, reward:50, day:'18 / 30일', streak:6, doneDays:6 },
+  { id:'portfolio', cat:'커리어', catColor:'#FFF6DE', catText:'#C99100', title:'포트폴리오 완성 챌린지', dday:'D-5', people:'642', pct:30, reward:80, day:'6 / 20일', streak:3, doneDays:3 }
+];
+
+const recoData = [
+  { id:'english', tag:'✨ 내 성향 맞춤 추천', tagColor:'#EEF2FE', tagText:'#4A7BF0', title:'영어 섀도잉 21일 챌린지', cat:'어학', catEmoji:'🗣️', people:'2,310', reward:60, day:'0 / 21일', dday:'21' },
+  { id:'brand', tag:'🚀 시장개척', tagColor:'#FFF6DE', tagText:'#C99100', title:'브랜드 마케터 루틴팩', cat:'커리어', catEmoji:'📈', people:'34', reward:70, day:'0 / 14일', dday:'14' },
+  { id:'resume', tag:'✨ 내 성향 맞춤 추천', tagColor:'#EEF2FE', tagText:'#4A7BF0', title:'이력서 1줄씩 채우기', cat:'자기계발', catEmoji:'📝', people:'1,540', reward:40, day:'0 / 10일', dday:'10' }
+];
+
+function renderJoined() {
+  const wrap = document.getElementById('joinedList');
+  if (joinedData.length === 0) {
+    wrap.innerHTML = '<div class="empty-state">아직 참여중인 챌린지가 없어요<br>아래에서 마음에 드는 챌린지를 찾아보세요</div>';
+    return;
+  }
+  wrap.innerHTML = joinedData.map(function(c) {
+    return '<div class="challenge-card" style="margin-bottom:10px;" onclick="openSheet(\'' + c.id + '\')">' +
+      '<div class="challenge-top">' +
+        '<div>' +
+          '<div class="challenge-cat" style="background:' + c.catColor + '; color:' + c.catText + ';">' + c.cat + '</div>' +
+          '<div class="challenge-title">' + c.title + '</div>' +
+          '<div class="challenge-sub">' + c.dday + ' 남음 · ' + c.people + '명 참여중</div>' +
+        '</div>' +
+        '<div class="challenge-ring" style="background: conic-gradient(#4A7BF0 0% ' + c.pct + '%, #F0F0F4 ' + c.pct + '% 100%);">' +
+          '<div class="challenge-ring-inner">' + c.pct + '%</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="challenge-bottom-row">' +
+        '<span class="challenge-people">👥 ' + c.people + '명 참여중</span>' +
+        '<span class="challenge-reward">완주 시 +' + c.reward + ' SP</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderReco() {
+  const wrap = document.getElementById('recoList');
+  wrap.innerHTML = recoData.map(function(c) {
+    return '<div class="reco-card" id="reco-' + c.id + '" style="margin-bottom:10px;">' +
+      '<div class="reco-tag" style="background:' + c.tagColor + '; color:' + c.tagText + ';">' + c.tag + '</div>' +
+      '<div class="reco-title">' + c.title + '</div>' +
+      '<div class="reco-row">' +
+        '<div class="reco-pills">' +
+          '<span class="reco-pill">' + c.catEmoji + ' ' + c.cat + '</span>' +
+          '<span class="reco-pill">' + c.people + '명 참여</span>' +
+        '</div>' +
+        '<button class="reco-cta" onclick="joinChallenge(\'' + c.id + '\')">참여</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function joinChallenge(id) {
+  const idx = recoData.findIndex(function(c) { return c.id === id; });
+  if (idx === -1) return;
+  const c = recoData[idx];
+
+  const card = document.getElementById('reco-' + id);
+  const btn = card.querySelector('.reco-cta');
+  btn.textContent = '참여중';
+  btn.classList.add('joined');
+  btn.disabled = true;
+  card.style.opacity = '0.55';
+
+  setTimeout(function() {
+    joinedData.unshift({
+      id: c.id, cat: c.cat, catColor: c.tagColor, catText: c.tagText,
+      title: c.title, dday: 'D-' + c.dday, people: c.people,
+      pct: 0, reward: c.reward, day: c.day, streak: 0, doneDays: 0
+    });
+    renderJoined();
+    document.getElementById('screen').scrollTo({top:0, behavior:'smooth'});
+  }, 450);
+}
+
+function openSheet(id) {
+  const c = joinedData.find(function(x) { return x.id === id; });
+  if (!c) return;
+  document.getElementById('sheetCat').textContent = c.cat;
+  document.getElementById('sheetCat').style.background = c.catColor;
+  document.getElementById('sheetCat').style.color = c.catText;
+  document.getElementById('sheetTitle').textContent = c.title;
+  document.getElementById('sheetSub').textContent = c.dday + ' 남음 · ' + c.people + '명 참여중';
+  document.getElementById('sheetPct').textContent = c.pct + '%';
+  document.getElementById('sheetRing').style.background = 'conic-gradient(#4A7BF0 0% ' + c.pct + '%, #F0F0F4 ' + c.pct + '% 100%)';
+  document.getElementById('sheetDay').textContent = c.day;
+  document.getElementById('sheetReward').textContent = '+' + c.reward + ' SP';
+  document.getElementById('sheetStreak').textContent = '🔥 ' + c.streak + '일';
+
+  const daysWrap = document.getElementById('sheetDays');
+  let daysHtml = '';
+  for (let i = 0; i < 10; i++) {
+    if (i < c.doneDays) daysHtml += '<div class="sheet-day done">✓</div>';
+    else if (i === c.doneDays) daysHtml += '<div class="sheet-day today">' + (i+1) + '</div>';
+    else daysHtml += '<div class="sheet-day future">' + (i+1) + '</div>';
+  }
+  daysWrap.innerHTML = daysHtml;
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+  document.getElementById('sheet').dataset.currentId = id;
+}
+
+function closeSheet() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+}
+
+function certifyToday() {
+  alert('오늘의 루틴이 인증되었어요! +10 SP 획득 🎉');
+  closeSheet();
+}
+
+function leaveChallenge() {
+  const id = document.getElementById('sheet').dataset.currentId;
+  joinedData = joinedData.filter(function(c) { return c.id !== id; });
+  renderJoined();
+  closeSheet();
+}
+
+function squash(el) {
+  const svg = el.querySelector('svg');
+  svg.classList.remove('squashing');
+  void svg.offsetWidth;
+  svg.classList.add('squashing');
+}
+
+renderJoined();
+renderReco();
+</script>
+
+</body>
+</html>

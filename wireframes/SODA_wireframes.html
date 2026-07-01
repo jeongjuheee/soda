@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SODA 와이어프레임 — 5개 탭 확정본</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif; background: #F2F2F7; color: #1C1C1E; padding: 40px 24px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #8E8E93; margin-bottom: 40px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; max-width: 1200px; }
+  .phone { background: #fff; border-radius: 40px; padding: 20px 16px; border: 1px solid #E5E5EA; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: relative; }
+  .phone-label { font-size: 11px; font-weight: 600; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.8px; text-align: center; margin-bottom: 16px; }
+  .screen { background: #F9F9FB; border-radius: 24px; padding: 14px 12px; display: flex; flex-direction: column; gap: 10px; min-height: 520px; }
+  .header { display: flex; justify-content: space-between; align-items: center; }
+  .header-title { font-size: 17px; font-weight: 600; }
+  .header-sub { font-size: 10px; color: #8E8E93; margin-top: 1px; }
+  .icon { width: 28px; height: 28px; border-radius: 50%; background: #F2F2F7; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .card { background: #fff; border-radius: 14px; padding: 11px 12px; border: 1px solid #E5E5EA; }
+  .card-title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .card-sub { font-size: 10px; color: #8E8E93; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .tag { font-size: 9px; background: #F2F2F7; color: #636366; border-radius: 5px; padding: 2px 6px; }
+  .tag-blue { background: #EAF2FF; color: #0071E3; }
+  .tag-green { background: #E8F7EE; color: #28A745; }
+  .progress-bar { height: 3px; background: #E5E5EA; border-radius: 2px; overflow: hidden; margin-top: 6px; }
+  .progress-fill { height: 100%; background: #34C759; border-radius: 2px; }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-card { background: #fff; border-radius: 12px; padding: 10px; border: 1px solid #E5E5EA; text-align: center; }
+  .stat-num { font-size: 20px; font-weight: 600; }
+  .stat-label { font-size: 9px; color: #8E8E93; margin-top: 2px; }
+  .tabs { display: flex; gap: 6px; }
+  .tab { flex: 1; background: #fff; border: 1px solid #E5E5EA; border-radius: 20px; padding: 5px 0; font-size: 10px; font-weight: 600; text-align: center; }
+  .tab-active { background: #1C1C1E; color: #fff; border-color: #1C1C1E; }
+  .tab-inactive { color: #8E8E93; }
+  .divider { height: 1px; background: #E5E5EA; }
+  .section-title { font-size: 11px; font-weight: 600; color: #1C1C1E; }
+  .row { display: flex; justify-content: space-between; align-items: center; }
+  .badge { font-size: 9px; border-radius: 6px; padding: 2px 7px; }
+  .badge-green { background: #E8F7EE; color: #28A745; }
+  .badge-blue { background: #EAF2FF; color: #0071E3; }
+  .badge-red { background: #FFECEC; color: #FF3B30; }
+  .toggle { font-size: 9px; background: #F2F2F7; border: 1px solid #E5E5EA; border-radius: 20px; padding: 4px 10px; color: #636366; }
+  .dna-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .dna-label { font-size: 9px; color: #8E8E93; width: 48px; flex-shrink: 0; }
+  .dna-track { flex: 1; height: 3px; background: #E5E5EA; border-radius: 2px; overflow: hidden; }
+  .dna-fill { height: 100%; border-radius: 2px; }
+  .insight-scroll { display: flex; gap: 8px; overflow: hidden; }
+  .insight-card { flex-shrink: 0; width: 140px; background: #fff; border-radius: 12px; padding: 10px; border: 1px solid #E5E5EA; }
+  .insight-card-highlight { border-color: #0071E3; }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background: #EAF2FF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: #0071E3; flex-shrink: 0; }
+  .profile-row { display: flex; align-items: center; gap: 10px; }
+  .match-pct { font-size: 16px; font-weight: 700; color: #0071E3; }
+  .empty-state { border: 1.5px dashed #E5E5EA; border-radius: 12px; padding: 14px; text-align: center; }
+  .dot-indicator { display: flex; justify-content: center; gap: 4px; margin-top: 4px; }
+  .dot { width: 6px; height: 3px; border-radius: 2px; background: #E5E5EA; }
+  .dot-active { width: 16px; background: #1C1C1E; }
+  .bottom-nav { display: flex; justify-content: space-around; background: #fff; border-radius: 20px; padding: 10px 8px; border: 1px solid #E5E5EA; margin-top: 4px; }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 9px; color: #8E8E93; }
+  .nav-item.active { color: #1C1C1E; font-weight: 600; }
+  .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: #1C1C1E; }
+</style>
+</head>
+<body>
+
+<h1>SODA — 와이어프레임 확정본</h1>
+<p class="subtitle">개인 유저 5개 탭 UI · Claude 점검 완료</p>
+
+<div class="grid">
+
+  <!-- 홈 탭 -->
+  <div class="phone">
+    <div class="phone-label">① 홈</div>
+    <div class="screen">
+      <div class="header">
+        <div>
+          <div class="header-title">6월 25일 수요일</div>
+          <div class="header-sub">달성 2/5</div>
+        </div>
+        <div class="avatar" style="width:32px;height:32px;font-size:12px">주</div>
+      </div>
+      <div style="height:3px;background:#E5E5EA;border-radius:2px;overflow:hidden">
+        <div style="width:40%;height:100%;background:#34C759;border-radius:2px"></div>
+      </div>
+      <div class="card">
+        <div class="card-sub" style="margin-bottom:6px">오늘의 루틴</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="display:flex;gap:8px;align-items:center">
+              <div style="width:4px;height:32px;background:#34C759;border-radius:2px"></div>
+              <div>
+                <div class="card-title">08:00 오전 30분 독서</div>
+                <div class="card-sub">완료 ✓</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="display:flex;gap:8px;align-items:center">
+              <div style="width:4px;height:32px;background:#E5E5EA;border-radius:2px"></div>
+              <div>
+                <div class="card-title">10:00 포트폴리오 작업</div>
+                <div class="card-sub">미완료</div>
+              </div>
+            </div>
+            <div class="badge badge-blue">인증</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="display:flex;gap:8px;align-items:center">
+              <div style="width:4px;height:32px;background:#E5E5EA;border-radius:2px"></div>
+              <div>
+                <div class="card-title">14:00 영어 섀도잉</div>
+                <div class="card-sub">미완료</div>
+              </div>
+            </div>
+            <div class="badge badge-blue">인증</div>
+          </div>
+          <div class="card-sub" style="text-align:center;margin-top:2px">+ 2개 더 ↓</div>
+        </div>
+      </div>
+      <div class="card" style="border-color:#0071E3">
+        <div class="card-sub" style="margin-bottom:4px">✨ 오늘의 인사이트</div>
+        <div class="card-title">공백기를 포트폴리오로 만드는 3가지 방법</div>
+        <div class="tags">
+          <span class="tag tag-blue">💎 크래프트</span>
+          <span class="tag">포트폴리오</span>
+          <span class="tag">커리어</span>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item active"><span>🏠</span><div class="nav-dot"></div></div>
+      <div class="nav-item"><span>⚡</span></div>
+      <div class="nav-item"><span>💡</span></div>
+      <div class="nav-item"><span>💼</span></div>
+      <div class="nav-item"><span>👤</span></div>
+    </div>
+  </div>
+
+  <!-- 챌린지 탭 -->
+  <div class="phone">
+    <div class="phone-label">② 챌린지</div>
+    <div class="screen">
+      <div class="header">
+        <div>
+          <div class="header-title">챌린지</div>
+          <div class="header-sub">진행 중 2개 · 완료 4개</div>
+        </div>
+        <div class="badge badge-blue" style="padding:5px 10px;font-size:10px">+ 직접등록</div>
+      </div>
+      <div class="tabs">
+        <div class="tab tab-active">진행중</div>
+        <div class="tab tab-inactive">완료</div>
+      </div>
+      <div class="card">
+        <div class="row" style="margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <span>📖</span>
+            <div>
+              <div class="card-title">오전 30분 독서</div>
+              <div class="card-sub">매일 반복</div>
+            </div>
+          </div>
+          <div class="badge badge-green">활성</div>
+        </div>
+        <div class="tags">
+          <span class="tag">💎 크래프트</span>
+          <span class="tag">08:00</span>
+          <span class="tag">7일</span>
+          <span class="tag">🔒 프라이빗</span>
+        </div>
+        <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:57%"></div></div>
+        <div class="card-sub" style="margin-top:4px">4/7일 완료</div>
+      </div>
+      <div class="card">
+        <div class="row" style="margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <span>✏️</span>
+            <div>
+              <div class="card-title">포트폴리오 1페이지</div>
+              <div class="card-sub">매일 반복</div>
+            </div>
+          </div>
+          <div class="badge badge-green">활성</div>
+        </div>
+        <div class="tags">
+          <span class="tag">🎯 프로젝트</span>
+          <span class="tag">10:00</span>
+          <span class="tag">30일</span>
+          <span class="tag">👥 소셜</span>
+        </div>
+        <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:20%"></div></div>
+        <div class="card-sub" style="margin-top:4px">6/30일 완료</div>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <div class="section-title">챌린지팩 탐색</div>
+        <div class="card-sub">전체보기 →</div>
+      </div>
+      <div class="card" style="border-color:#0071E3">
+        <div class="badge badge-blue" style="margin-bottom:6px;display:inline-block">✨ 내 성향 맞춤 추천</div>
+        <div class="row">
+          <div>
+            <div class="card-title">브랜드 마케터 루틴팩</div>
+            <div class="tags">
+              <span class="tag">🚀 시장개척</span>
+              <span class="tag">34명 참여</span>
+            </div>
+          </div>
+          <div class="badge" style="background:#F2F2F7;color:#1C1C1E;padding:5px 10px">구독</div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item"><span>🏠</span></div>
+      <div class="nav-item active"><span>⚡</span><div class="nav-dot"></div></div>
+      <div class="nav-item"><span>💡</span></div>
+      <div class="nav-item"><span>💼</span></div>
+      <div class="nav-item"><span>👤</span></div>
+    </div>
+  </div>
+
+  <!-- 인사이트 탭 -->
+  <div class="phone">
+    <div class="phone-label">③ 인사이트</div>
+    <div class="screen">
+      <div class="header">
+        <div class="header-title">인사이트</div>
+        <span style="font-size:18px;color:#8E8E93">🔍</span>
+      </div>
+      <div>
+        <div class="row" style="margin-bottom:8px">
+          <div class="section-title">✨ 오늘의 추천</div>
+          <div class="card-sub">전체보기 →</div>
+        </div>
+        <div class="insight-scroll">
+          <div class="insight-card insight-card-highlight">
+            <div class="badge badge-blue" style="margin-bottom:5px;display:inline-block">맞춤 추천</div>
+            <div class="card-title" style="line-height:1.4;margin-bottom:6px">공백기를 포트폴리오로 만드는 법</div>
+            <div class="tags">
+              <span class="tag">💎 크래프트</span>
+              <span class="tag">포트폴리오</span>
+            </div>
+          </div>
+          <div class="insight-card">
+            <div class="card-title" style="line-height:1.4;margin-bottom:6px">스타트업 조직문화 핏 찾기</div>
+            <div class="tags">
+              <span class="tag">🚀 시장개척</span>
+              <span class="tag">조직문화</span>
+            </div>
+          </div>
+          <div class="insight-card">
+            <div class="card-title" style="line-height:1.4;margin-bottom:6px">루틴이 무너졌을 때 다시 시작하는 법</div>
+            <div class="tags">
+              <span class="tag">🧱 시스템</span>
+              <span class="tag">루틴회복</span>
+            </div>
+          </div>
+        </div>
+        <div class="dot-indicator">
+          <div class="dot dot-active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap">
+        <div class="tab tab-active" style="flex:none;padding:4px 10px;font-size:10px">전체</div>
+        <div class="tab tab-inactive" style="flex:none;padding:4px 10px;font-size:10px">커리어</div>
+        <div class="tab tab-inactive" style="flex:none;padding:4px 10px;font-size:10px">루틴</div>
+        <div class="tab tab-inactive" style="flex:none;padding:4px 10px;font-size:10px">직무탐색</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div class="card">
+          <div class="row">
+            <div style="flex:1;min-width:0">
+              <div class="card-title" style="margin-bottom:5px">스페셜리스트로 성장하는 커리어 전략</div>
+              <div class="tags"><span class="tag">💎 크래프트</span><span class="tag">커리어</span><span class="tag">성장전략</span></div>
+            </div>
+            <span style="font-size:14px;color:#8E8E93;margin-left:8px">🔖</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="row">
+            <div style="flex:1;min-width:0">
+              <div class="card-title" style="margin-bottom:5px">주니어 디자이너 연봉 협상 가이드</div>
+              <div class="tags"><span class="tag">커리어</span><span class="tag">연봉협상</span><span class="tag">디자인</span></div>
+            </div>
+            <span style="font-size:14px;color:#8E8E93;margin-left:8px">🔖</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item"><span>🏠</span></div>
+      <div class="nav-item"><span>⚡</span></div>
+      <div class="nav-item active"><span>💡</span><div class="nav-dot"></div></div>
+      <div class="nav-item"><span>💼</span></div>
+      <div class="nav-item"><span>👤</span></div>
+    </div>
+  </div>
+
+  <!-- 채용 탭 -->
+  <div class="phone">
+    <div class="phone-label">④ 채용</div>
+    <div class="screen">
+      <div class="header">
+        <div class="header-title">채용</div>
+        <div class="toggle">구직중 ON</div>
+      </div>
+      <div>
+        <div class="row" style="margin-bottom:6px">
+          <div class="section-title">📬 스카웃 제안</div>
+          <div class="badge badge-red">새 제안 1</div>
+        </div>
+        <div class="card" style="border-color:#0071E3">
+          <div class="row" style="margin-bottom:6px">
+            <div>
+              <div class="card-title">에이전시 스튜디오</div>
+              <div class="card-sub">브랜드 디자이너 포지션 제안</div>
+            </div>
+            <div class="badge badge-blue">92% 매칭</div>
+          </div>
+          <div class="tags" style="margin-bottom:8px">
+            <span class="tag">💎 크래프트장인형</span>
+            <span class="tag">서울</span>
+            <span class="tag">10~15인</span>
+          </div>
+          <div style="display:flex;gap:6px">
+            <div style="flex:1;background:#F2F2F7;border-radius:10px;padding:7px;text-align:center;font-size:10px;color:#636366">나중에</div>
+            <div style="flex:1;background:#1C1C1E;border-radius:10px;padding:7px;text-align:center;font-size:10px;color:#fff;font-weight:600">수락하기</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-title">매칭 기업 · 3곳</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div class="card">
+          <div class="row" style="margin-bottom:5px">
+            <div class="card-title">커머스 스타트업</div>
+            <div class="card-sub" style="font-weight:600;color:#1C1C1E;font-size:13px">78%</div>
+          </div>
+          <div class="tags"><span class="tag">🚀 시장개척</span><span class="tag">브랜드 마케터</span><span class="tag">서울</span></div>
+        </div>
+        <div class="card">
+          <div class="row" style="margin-bottom:5px">
+            <div class="card-title">패션 플랫폼</div>
+            <div class="card-sub" style="font-weight:600;color:#1C1C1E;font-size:13px">71%</div>
+          </div>
+          <div class="tags"><span class="tag">🎯 프로젝트</span><span class="tag">콘텐츠 디자이너</span><span class="tag">성수</span></div>
+        </div>
+      </div>
+      <div class="empty-state">
+        <div class="card-sub">매칭률을 높이려면 루틴을 꾸준히 인증해보세요 →</div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item"><span>🏠</span></div>
+      <div class="nav-item"><span>⚡</span></div>
+      <div class="nav-item"><span>💡</span></div>
+      <div class="nav-item active"><span>💼</span><div class="nav-dot"></div></div>
+      <div class="nav-item"><span>👤</span></div>
+    </div>
+  </div>
+
+  <!-- 마이페이지 -->
+  <div class="phone">
+    <div class="phone-label">⑤ 마이페이지</div>
+    <div class="screen">
+      <div class="header">
+        <div class="header-title">마이페이지</div>
+        <span style="font-size:18px;color:#8E8E93">⚙️</span>
+      </div>
+      <div class="card">
+        <div class="profile-row">
+          <div class="avatar">주</div>
+          <div>
+            <div class="card-title">주리님</div>
+            <div class="card-sub">방전형 · 브랜드 마케터 지망</div>
+            <div class="tags">
+              <span class="tag tag-blue">💎 크래프트장인형</span>
+              <span class="tag tag-green">구직중</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-num">23일</div><div class="stat-label">총 루틴 달성</div></div>
+        <div class="stat-card"><div class="stat-num">7일 🔥</div><div class="stat-label">연속 달성</div></div>
+      </div>
+      <div class="card">
+        <div class="row" style="margin-bottom:8px">
+          <div class="section-title">커리어 DNA</div>
+          <div class="card-sub">3일 전 업데이트</div>
+        </div>
+        <div class="dna-bar"><div class="dna-label">크래프트</div><div class="dna-track"><div class="dna-fill" style="width:82%;background:#34C759"></div></div><div class="card-sub">82%</div></div>
+        <div class="dna-bar"><div class="dna-label">프로젝트</div><div class="dna-track"><div class="dna-fill" style="width:65%;background:#8E8E93"></div></div><div class="card-sub">65%</div></div>
+        <div class="dna-bar"><div class="dna-label">하모니</div><div class="dna-track"><div class="dna-fill" style="width:48%;background:#8E8E93"></div></div><div class="card-sub">48%</div></div>
+        <div class="dna-bar"><div class="dna-label">시장개척</div><div class="dna-track"><div class="dna-fill" style="width:35%;background:#C7C7CC"></div></div><div class="card-sub">35%</div></div>
+        <div class="dna-bar"><div class="dna-label">시스템</div><div class="dna-track"><div class="dna-fill" style="width:10%;background:#E5E5EA"></div></div><div class="card-sub" style="color:#C7C7CC">분석중</div></div>
+      </div>
+      <div class="card">
+        <div class="row" style="margin-bottom:8px">
+          <div class="section-title">루틴 히스토리</div>
+          <div class="card-sub">전체보기 →</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div class="row"><div class="card-title">오전 30분 독서</div><div class="card-sub">4/7일 · 57%</div></div>
+          <div class="row"><div class="card-title">포트폴리오 작업</div><div class="card-sub">6/30일 · 20%</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row">
+          <div class="section-title">저장한 인사이트</div>
+          <div class="card-sub">3개 →</div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item"><span>🏠</span></div>
+      <div class="nav-item"><span>⚡</span></div>
+      <div class="nav-item"><span>💡</span></div>
+      <div class="nav-item"><span>💼</span></div>
+      <div class="nav-item active"><span>👤</span><div class="nav-dot"></div></div>
+    </div>
+  </div>
+
+</div>
+
+<p style="margin-top:40px;font-size:12px;color:#8E8E93;text-align:center">SODA 와이어프레임 확정본 · Claude 점검 완료 · 2026.06.25</p>
+
+</body>
+</html>

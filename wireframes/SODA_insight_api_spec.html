@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SODA 인사이트 — AI 생성 콘텐츠 API 연동 스펙</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    background: #F4F5F8;
+    color: #1A1A1E;
+    padding: 48px 32px;
+  }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #8E8E96; margin-bottom: 8px; }
+  .key-line { font-size: 12.5px; color:#4A7BF0; font-weight:700; background:#EEF2FE; display:inline-block; padding:9px 15px; border-radius:13px; margin-bottom:36px; }
+
+  .layout { display:flex; gap: 36px; max-width: 1150px; flex-wrap:wrap; }
+
+  .phone-col { flex-shrink:0; }
+  .phone { background: #fff; border-radius: 40px; padding: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); width: 300px; position:relative; }
+  .screen-mock { background:#fff; border-radius: 30px; padding: 14px 16px 18px; position:relative; min-height:600px; }
+
+  .callout { position:absolute; width:19px; height:19px; border-radius:50%; background:#4A7BF0; color:#fff; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(74,123,240,0.4); z-index:5; }
+
+  .nav-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .nav-icon { width:26px; height:26px; border-radius:50%; background:#F4F4F7; }
+
+  .cat-chip { font-size: 9.5px; font-weight:800; color:#4A7BF0; background:#EEF2FE; padding:4px 10px; border-radius:9px; display:inline-block; margin-bottom:9px; }
+  .title-mock { font-size: 16px; font-weight:800; line-height:1.4; margin-bottom:10px; }
+  .meta-mock { font-size:10px; color:#9B9BA3; display:flex; gap:8px; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid #F0F0F4; }
+  .thumb-mock { width:100%; height:110px; border-radius:14px; background:linear-gradient(135deg,#A8C5FF,#4A7BF0); margin-bottom:14px; }
+  .body-line { height:9px; background:#EFEFF2; border-radius:5px; margin-bottom:8px; }
+  .body-line.short { width:60%; }
+  .subhead-mock { font-size:12px; font-weight:800; margin: 14px 0 8px; }
+  .tag-row-mock { display:flex; gap:6px; margin-top:16px; padding-top:14px; border-top:1px solid #F0F0F4; }
+  .tag-mock { font-size:9.5px; font-weight:700; color:#4A7BF0; background:#EEF2FE; padding:5px 11px; border-radius:10px; }
+
+  .spec-col { flex:1; min-width: 420px; }
+  .spec-section { background:#fff; border-radius:18px; padding: 18px 20px; margin-bottom:16px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+  .spec-section-title { font-size:13px; font-weight:800; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .spec-num { width:19px; height:19px; border-radius:50%; background:#4A7BF0; color:#fff; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  table { width:100%; border-collapse:collapse; font-size:11.5px; }
+  th, td { text-align:left; padding: 7px 8px; border-bottom:1px solid #F4F4F7; vertical-align:top; }
+  th { color:#9B9BA3; font-weight:700; font-size:10.5px; }
+  td { color:#3A3A42; }
+  td code { background:#F4F4F7; padding:1px 6px; border-radius:5px; font-size:10.5px; color:#4A7BF0; }
+  .note-box { font-size:11px; color:#6B6B73; background:#F8F9FC; border-radius:12px; padding:12px 14px; margin-top:10px; line-height:1.7; }
+
+  .json-block { background:#1A1A2E; color:#D9E2FF; font-family: 'SF Mono', Consolas, monospace; font-size:11px; border-radius:14px; padding:16px 18px; line-height:1.7; overflow-x:auto; white-space:pre; }
+  .json-key { color:#7FD4D8; }
+  .json-str { color:#FFD25E; }
+  .json-comment { color:#7A8BB5; }
+</style>
+</head>
+<body>
+
+<h1>SODA 인사이트 — AI 생성 콘텐츠 API 연동 스펙</h1>
+<p class="subtitle">인사이트 콘텐츠는 LLM API로 생성되어 동적으로 채워짐 · 화면 영역별 데이터 바인딩 가이드</p>
+<div class="key-line">디자인은 고정 레이아웃, 콘텐츠(텍스트/이미지/태그)는 API 응답값으로 매 호출마다 동적 렌더링</div>
+
+<div class="layout">
+
+  <div class="phone-col">
+    <div class="phone">
+      <div class="screen-mock">
+        <div class="callout" style="top:10px; left:10px;">1</div>
+        <div class="nav-top">
+          <div class="nav-icon"></div>
+          <div style="display:flex; gap:6px;"><div class="nav-icon"></div><div class="nav-icon"></div></div>
+        </div>
+
+        <div class="callout" style="top:74px; left:10px;">2</div>
+        <div class="cat-chip">크래프트</div>
+        <div class="title-mock">공백기를 포트폴리오로 만드는 법</div>
+
+        <div class="callout" style="top:170px; left:10px;">3</div>
+        <div class="meta-mock">
+          <span>2026.06.20</span><span>·</span><span>읽는 시간 4분</span><span>·</span><span>조회 1,204</span>
+        </div>
+
+        <div class="callout" style="top:215px; left:10px;">4</div>
+        <div class="thumb-mock"></div>
+
+        <div class="callout" style="top:340px; left:10px;">5</div>
+        <div class="body-line"></div>
+        <div class="body-line"></div>
+        <div class="body-line short"></div>
+        <div class="subhead-mock">소제목 영역</div>
+        <div class="body-line"></div>
+        <div class="body-line short"></div>
+
+        <div class="callout" style="top:530px; left:10px;">6</div>
+        <div class="tag-row-mock">
+          <div class="tag-mock">포트폴리오</div>
+          <div class="tag-mock">커리어전환</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-col">
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">1</span>콘텐츠 생성 트리거 / 갱신 주기</div>
+      <table>
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td>생성 방식</td><td>서버에서 정기 배치(예: 매일 1회) 또는 사용자 행동 트리거(예: 신규 가입 시 초기 추천) 기준으로 LLM API 호출하여 콘텐츠 생성·저장</td></tr>
+        <tr><td>"오늘의 추천" 개인화</td><td>사용자의 5축 행동성격 데이터 + 최근 활동(참여 챌린지 카테고리 등)을 프롬프트 컨텍스트로 활용해 맞춤 콘텐츠 우선순위 결정</td></tr>
+        <tr><td>저장 방식</td><td>생성된 콘텐츠는 DB에 저장 후 캐싱 — 매 화면 진입마다 LLM을 재호출하지 않음 (비용/속도 이슈 방지)</td></tr>
+      </table>
+      <div class="note-box">중요: 클라이언트(앱)는 LLM API를 직접 호출하지 않음. 서버가 생성·검수 후 일반 REST 응답으로 클라이언트에 내려주는 구조를 권장 (실시간 생성 시 응답 지연 및 품질 검수 불가 문제 발생)</div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">2</span>상단 영역 — 카테고리 / 제목</div>
+      <table>
+        <tr><th>필드</th><th>설명</th></tr>
+        <tr><td><code>category</code></td><td>AI가 생성 시 사전 정의된 카테고리 목록(크래프트/커리어/루틴/직무탐색/트렌드) 중 하나로 분류하도록 프롬프트에 강제. 카테고리별 색상은 클라이언트에서 프리셋 매핑</td></tr>
+        <tr><td><code>title</code></td><td>20자 내외 권장. 너무 길 경우 2줄까지만 노출하고 말줄임(...) 처리</td></tr>
+      </table>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">3</span>메타 정보 영역</div>
+      <table>
+        <tr><th>필드</th><th>설명</th></tr>
+        <tr><td><code>createdAt</code></td><td>콘텐츠 생성일, <code>YYYY.MM.DD</code> 포맷으로 표시</td></tr>
+        <tr><td><code>readingTimeMin</code></td><td>AI 응답이 아닌 클라이언트/서버에서 본문 글자수 기준 자동 계산(예: 분당 400자 기준). API가 직접 줄 필요 없음</td></tr>
+        <tr><td><code>viewCount</code></td><td>실제 사용자 조회 시 서버에서 카운트 증가, AI 생성값 아님</td></tr>
+      </table>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">4</span>썸네일 이미지</div>
+      <table>
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td>생성 방식</td><td>별도 이미지 생성 API(예: DALL-E 등) 연동 또는 카테고리별 고정 일러스트/그라데이션 프리셋 사용 — 비용 효율 위해 후자 권장</td></tr>
+        <tr><td>대체(fallback)</td><td>이미지 생성 실패 시 카테고리 컬러 기반 그라데이션 블록으로 자동 대체</td></tr>
+      </table>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">5</span>본문 영역</div>
+      <table>
+        <tr><th>필드</th><th>설명</th></tr>
+        <tr><td><code>bodyBlocks</code></td><td>본문은 단일 긴 텍스트가 아니라 블록 배열(문단/소제목 타입 구분)로 받아서, 클라이언트가 소제목/문단을 구분해 스타일링</td></tr>
+        <tr><td>길이 가이드</td><td>프롬프트에 "본문 3~5개 문단, 소제목 1~2개 포함" 등으로 구조 강제 권장 (일관된 레이아웃 유지를 위함)</td></tr>
+        <tr><td>강조 텍스트</td><td>중요 키워드는 마크다운 굵게 표시 형태로 받아 클라이언트에서 강조 스타일로 변환</td></tr>
+      </table>
+      <div class="note-box">AI 생성 콘텐츠는 반드시 발행 전 검수 단계(자동 필터링 + 운영자 검토)를 거치도록 권장 — 잘못된 정보나 부적절한 표현이 사용자에게 그대로 노출되는 리스크 방지</div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title"><span class="spec-num">6</span>하단 태그 / 관련 챌린지 연결</div>
+      <table>
+        <tr><th>필드</th><th>설명</th></tr>
+        <tr><td><code>tags</code></td><td>문자열 배열, 3~4개 권장</td></tr>
+        <tr><td><code>relatedChallengeId</code></td><td>AI가 생성한 콘텐츠의 category와 일치하는 챌린지를 서버 로직으로 매칭하여 ID 삽입. 하단 "관련 챌린지 보러가기" 버튼 클릭 시 해당 챌린지 상세로 이동</td></tr>
+      </table>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">예상 API 응답 형태 (참고용)</div>
+      <div class="json-block">{
+  <span class="json-key">"id"</span>: <span class="json-str">"insight_0001"</span>,
+  <span class="json-key">"category"</span>: <span class="json-str">"크래프트"</span>,
+  <span class="json-key">"title"</span>: <span class="json-str">"공백기를 포트폴리오로 만드는 법"</span>,
+  <span class="json-key">"createdAt"</span>: <span class="json-str">"2026-06-20"</span>,
+  <span class="json-key">"thumbnailUrl"</span>: <span class="json-str">null</span>, <span class="json-comment">// null이면 카테고리 그라데이션으로 대체</span>
+  <span class="json-key">"bodyBlocks"</span>: [
+    { <span class="json-key">"type"</span>: <span class="json-str">"paragraph"</span>, <span class="json-key">"text"</span>: <span class="json-str">"..."</span> },
+    { <span class="json-key">"type"</span>: <span class="json-str">"subhead"</span>, <span class="json-key">"text"</span>: <span class="json-str">"공백기를 자산으로 바꾸는 3단계"</span> },
+    { <span class="json-key">"type"</span>: <span class="json-str">"paragraph"</span>, <span class="json-key">"text"</span>: <span class="json-str">"..."</span> }
+  ],
+  <span class="json-key">"tags"</span>: [<span class="json-str">"포트폴리오"</span>, <span class="json-str">"커리어전환"</span>, <span class="json-str">"공백기"</span>],
+  <span class="json-key">"relatedChallengeId"</span>: <span class="json-str">"challenge_0042"</span>,
+  <span class="json-key">"personalizedFor"</span>: [<span class="json-str">"user_segment_craft"</span>] <span class="json-comment">// 맞춤 추천 매칭용</span>
+}</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SODA 마스코트 캐릭터 디자인 가이드</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    background: #F4F5F8;
+    color: #1A1A1E;
+    padding: 48px 40px;
+    max-width: 960px;
+  }
+
+  .cover { background: linear-gradient(160deg, #6E97F5, #3D63D6); border-radius: 24px; padding: 36px 32px; margin-bottom: 40px; color:#fff; }
+  .cover h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .cover p { font-size: 13px; color:#D9E2FF; line-height:1.7; margin-bottom:16px; }
+  .cover-chips { display:flex; gap:10px; flex-wrap:wrap; }
+  .cover-chip { font-size:11px; font-weight:700; background:rgba(255,255,255,0.18); padding:5px 12px; border-radius:10px; }
+
+  .section { background:#fff; border-radius:20px; padding:28px 32px; margin-bottom:20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+  .section-title { font-size:17px; font-weight:800; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+  .section-num { width:24px; height:24px; border-radius:50%; background:#4A7BF0; color:#fff; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+  h3 { font-size:13.5px; font-weight:800; color:#3661D6; margin: 22px 0 10px; }
+  h3:first-child { margin-top: 0; }
+  p { font-size:12.5px; line-height:1.8; color:#3A3A42; margin-bottom:8px; }
+  ul, ol { padding-left:18px; }
+  li { font-size:12.5px; line-height:1.9; color:#3A3A42; }
+
+  code { background:#EEF2FE; color:#4A7BF0; padding:1px 7px; border-radius:5px; font-size:11.5px; font-family:'SF Mono', Consolas, monospace; }
+
+  .note { background:#F8F9FC; border-left:3px solid #4A7BF0; border-radius:0 12px 12px 0; padding:12px 16px; font-size:12px; color:#6B6B73; line-height:1.7; margin-top:12px; }
+  .note b { color:#1A1A1E; }
+
+  .warn { background:#FFF6DE; border-left:3px solid #C99100; border-radius:0 12px 12px 0; padding:12px 16px; font-size:12px; color:#7A5900; line-height:1.7; margin-top:12px; }
+
+  table { width:100%; border-collapse:collapse; font-size:12px; margin:10px 0; }
+  th, td { text-align:left; padding:9px 10px; border-bottom:1px solid #F0F0F4; vertical-align:top; }
+  th { color:#9B9BA3; font-weight:700; font-size:11px; background:#FAFAFC; }
+  td { color:#3A3A42; }
+
+  .divider { height:1px; background:#F0F0F4; margin: 22px 0; }
+
+  /* Character preview grid */
+  .char-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; margin:14px 0; }
+  .char-card { background:#F8F9FC; border-radius:16px; padding:18px 12px; text-align:center; }
+  .char-name { font-size:12px; font-weight:800; margin-top:10px; }
+  .char-lv { font-size:10px; color:#9B9BA3; margin-top:2px; }
+  .char-sp { font-size:10px; color:#4A7BF0; font-weight:700; margin-top:2px; }
+
+  /* Expression grid */
+  .expr-grid { display:grid; grid-template-columns: repeat(5, 1fr); gap:12px; margin:14px 0; }
+  .expr-card { background:#2A3148; border-radius:14px; padding:14px 8px; text-align:center; }
+  .expr-name { font-size:10.5px; font-weight:800; color:#fff; margin-top:8px; }
+  .expr-when { font-size:9.5px; color:#9BA3C2; margin-top:3px; line-height:1.4; }
+
+  .color-row { display:flex; gap:12px; margin:10px 0; flex-wrap:wrap; }
+  .color-item { display:flex; align-items:center; gap:8px; }
+  .color-box { width:22px; height:22px; border-radius:6px; flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>SODA 마스코트 — 캐릭터 디자인 가이드</h1>
+  <p>개발자(안티) 전달용. 캐릭터 형태, 레벨별 외형, 표정 시스템, 모션 스펙을 정리한 디자인 가이드입니다.<br>
+  이 문서를 기반으로 캐릭터를 일러스트로 제작하거나 SVG/코드로 구현하면 됩니다.</p>
+  <div class="cover-chips">
+    <span class="cover-chip">캐릭터명: 소다</span>
+    <span class="cover-chip">형태: 물방울 블롭</span>
+    <span class="cover-chip">메인컬러: #4A7BF0</span>
+    <span class="cover-chip">레벨: 4단계</span>
+    <span class="cover-chip">표정: 5종</span>
+  </div>
+</div>
+
+<!-- 1. 기본 형태 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">1</span>기본 형태 (Base Shape)</div>
+
+  <h3>실루엣</h3>
+  <ul>
+    <li>물방울(teardrop) 형태가 기본. 위는 둥글고 아래로 갈수록 약간 좁아지는 통통한 비정형 블롭</li>
+    <li>완전히 대칭적이지 않아도 됨 — 살짝 비정형이어야 "말랑한 생물체" 느낌이 살아남</li>
+    <li>하단에 살짝 꼬리(또는 끝이 좁아지는 형태)가 있으면 물방울 정체성 강화</li>
+  </ul>
+
+  <h3>외곽선 (Outline)</h3>
+  <ul>
+    <li>화이트 보더(외곽선) 필수 — 어떤 배경에서도 캐릭터가 또렷하게 분리되어 보이게 하는 핵심 디테일</li>
+    <li>굵기: 3~4px (캐릭터 크기에 따라 비례 조정)</li>
+  </ul>
+
+  <h3>색상 (Body Color)</h3>
+  <div class="color-row">
+    <div class="color-item"><div class="color-box" style="background:linear-gradient(135deg,#D6E2FF,#88A8F7,#4A7BF0,#3360D9);"></div><p>기본 블루 그라데이션 — 좌상단 밝게, 우하단 진하게</p></div>
+  </div>
+  <div class="color-row">
+    <div class="color-item"><div class="color-box" style="background:#6F8FE8;"></div><p><code>#6F8FE8</code> — 졸림/슬픔 상태에서 채도 낮은 톤으로 전환</p></div>
+  </div>
+  <div class="color-row">
+    <div class="color-item"><div class="color-box" style="background:linear-gradient(135deg,#FFE9C5,#A8C5FF,#4A7BF0,#2A4FC9);"></div><p>Lv.4 빛나는소다 — 오로라 느낌의 다색 그라데이션으로 진화</p></div>
+  </div>
+
+  <h3>하이라이트 (Highlight)</h3>
+  <ul>
+    <li>좌상단에 큰 타원 하이라이트 1개 (opacity 0.4~0.55, fill white)</li>
+    <li>바로 아래 또는 좌측에 작은 타원 하이라이트 1개 (opacity 0.6~0.75) — 글로시/펄 머티리얼 느낌</li>
+    <li>우하단에 작은 림 라이트(rim light) 타원 1개 (opacity 0.15~0.2)</li>
+  </ul>
+
+  <h3>눈 (Eyes)</h3>
+  <ul>
+    <li>기본: 세로로 약간 긴 타원 2개, fill <code>#16234F</code> (다크 네이비)</li>
+    <li>눈 안에 흰색 하이라이트 점 1개씩 — 생동감 핵심 디테일</li>
+    <li>두 눈 사이 간격: 몸통 너비의 약 25~30%</li>
+  </ul>
+
+  <h3>그림자</h3>
+  <ul>
+    <li>발 아래(캐릭터 하단)에 블루 계열 타원 그림자 (fill <code>#4A7BF0</code>, opacity 0.10~0.15, blur 처리)</li>
+    <li>부유 모션 시 캐릭터가 올라갈 때 그림자 작아지고, 내려올 때 커짐 (공중 부유감 강조)</li>
+  </ul>
+
+  <div class="note">
+    <b>레퍼런스 분위기:</b> 레퍼런스로 확정한 무드는 "귀여우면서 약간 멍청한(?) 느낌, 형태가 고정되지 않고 말랑말랑하게 움직이는" 캐릭터. 너무 정교하게 다듬은 것보다 약간 뭉툭하고 불완전한 느낌이 있어야 함.
+  </div>
+</div>
+
+<!-- 2. 레벨별 외형 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">2</span>레벨별 외형 (Level Appearance)</div>
+
+  <p>레벨이 올라갈수록 액세서리가 누적(쌓임)되는 구조. 상위 레벨 캐릭터는 하위 레벨 액세서리를 모두 착용하고 있음.</p>
+
+  <div class="char-grid">
+    <!-- Lv1 -->
+    <div class="char-card">
+      <svg width="80" height="90" viewBox="0 0 140 160">
+        <defs><radialGradient id="g1" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#D6E2FF"/><stop offset="40%" stop-color="#88A8F7"/><stop offset="80%" stop-color="#4A7BF0"/><stop offset="100%" stop-color="#3360D9"/></radialGradient></defs>
+        <ellipse cx="70" cy="148" rx="28" ry="5" fill="#4A7BF0" opacity="0.12"/>
+        <path d="M70 12 C98 12,120 36,122 64 C124 86,116 104,100 116 C100 128,90 136,78 130 C70 138,56 136,50 128 C36 122,18 104,18 80 C18 50,40 14,70 12Z" fill="url(#g1)" stroke="#fff" stroke-width="4"/>
+        <ellipse cx="48" cy="48" rx="18" ry="14" fill="#fff" opacity="0.45"/>
+        <ellipse cx="42" cy="40" rx="7" ry="9" fill="#fff" opacity="0.65"/>
+        <ellipse cx="62" cy="78" rx="4.5" ry="6.5" fill="#16234F"/>
+        <ellipse cx="88" cy="78" rx="4.5" ry="6.5" fill="#16234F"/>
+        <circle cx="63.5" cy="75" r="1.5" fill="#fff"/>
+        <circle cx="89.5" cy="75" r="1.5" fill="#fff"/>
+        <path d="M62 92 Q75 100 88 92" stroke="#16234F" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- sprout -->
+        <line x1="70" y1="12" x2="70" y2="0" stroke="#5FD68A" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M70 6 C70 6,62 -2,54 1 C54 1,58 8,70 6Z" fill="#5FD68A"/>
+        <path d="M70 4 C70 4,78 -2,86 1 C86 1,82 8,70 4Z" fill="#7AE39E"/>
+      </svg>
+      <div class="char-name">새싹소다</div>
+      <div class="char-lv">Lv.1</div>
+      <div class="char-sp">0 ~ 299 SP</div>
+    </div>
+
+    <!-- Lv2 -->
+    <div class="char-card">
+      <svg width="80" height="90" viewBox="0 0 140 160">
+        <defs><radialGradient id="g2" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#D6E2FF"/><stop offset="40%" stop-color="#88A8F7"/><stop offset="80%" stop-color="#4A7BF0"/><stop offset="100%" stop-color="#3360D9"/></radialGradient></defs>
+        <ellipse cx="70" cy="148" rx="28" ry="5" fill="#4A7BF0" opacity="0.12"/>
+        <path d="M70 12 C98 12,120 36,122 64 C124 86,116 104,100 116 C100 128,90 136,78 130 C70 138,56 136,50 128 C36 122,18 104,18 80 C18 50,40 14,70 12Z" fill="url(#g2)" stroke="#fff" stroke-width="4"/>
+        <ellipse cx="48" cy="48" rx="18" ry="14" fill="#fff" opacity="0.45"/>
+        <ellipse cx="42" cy="40" rx="7" ry="9" fill="#fff" opacity="0.65"/>
+        <ellipse cx="62" cy="78" rx="4.5" ry="6.5" fill="#16234F"/>
+        <ellipse cx="88" cy="78" rx="4.5" ry="6.5" fill="#16234F"/>
+        <circle cx="63.5" cy="75" r="1.5" fill="#fff"/>
+        <circle cx="89.5" cy="75" r="1.5" fill="#fff"/>
+        <path d="M62 92 Q75 100 88 92" stroke="#16234F" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <line x1="70" y1="12" x2="70" y2="0" stroke="#5FD68A" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M70 6 C70 6,62 -2,54 1 C54 1,58 8,70 6Z" fill="#5FD68A"/>
+        <path d="M70 4 C70 4,78 -2,86 1 C86 1,82 8,70 4Z" fill="#7AE39E"/>
+        <!-- ribbon -->
+        <path d="M70 20 C70 20,62 10,50 13 C44 15,44 23,50 25 C58 27,66 22,70 20Z" fill="#FF6B9D"/>
+        <path d="M70 20 C70 20,78 10,90 13 C96 15,96 23,90 25 C82 27,74 22,70 20Z" fill="#FF85AC"/>
+        <circle cx="70" cy="20" r="4.5" fill="#E8528A"/>
+      </svg>
+      <div class="char-name">통통소다</div>
+      <div class="char-lv">Lv.2</div>
+      <div class="char-sp">300 ~ 699 SP</div>
+    </div>
+
+    <!-- Lv3 -->
+    <div class="char-card">
+      <svg width="80" height="90" viewBox="0 0 140 160">
+        <defs><radialGradient id="g3" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#D6E2FF"/><stop offset="40%" stop-color="#88A8F7"/><stop offset="80%" stop-color="#4A7BF0"/><stop offset="100%" stop-color="#3360D9"/></radialGradient></defs>
+        <ellipse cx="70" cy="148" rx="28" ry="5" fill="#4A7BF0" opacity="0.12"/>
+        <path d="M70 12 C98 12,120 36,122 64 C124 86,116 104,100 116 C100 128,90 136,78 130 C70 138,56 136,50 128 C36 122,18 104,18 80 C18 50,40 14,70 12Z" fill="url(#g3)" stroke="#fff" stroke-width="4"/>
+        <ellipse cx="48" cy="48" rx="18" ry="14" fill="#fff" opacity="0.45"/>
+        <!-- sunglasses -->
+        <rect x="50" y="68" width="20" height="14" rx="7" fill="#1A1A2E"/>
+        <rect x="80" y="68" width="20" height="14" rx="7" fill="#1A1A2E"/>
+        <rect x="70" y="72" width="10" height="3" fill="#1A1A2E"/>
+        <ellipse cx="56" cy="72" rx="4" ry="3" fill="#fff" opacity="0.4"/>
+        <ellipse cx="86" cy="72" rx="4" ry="3" fill="#fff" opacity="0.4"/>
+        <path d="M62 90 Q75 98 88 90" stroke="#16234F" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <line x1="70" y1="12" x2="70" y2="0" stroke="#5FD68A" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M70 6 C70 6,62 -2,54 1 C54 1,58 8,70 6Z" fill="#5FD68A"/>
+        <path d="M70 4 C70 4,78 -2,86 1 C86 1,82 8,70 4Z" fill="#7AE39E"/>
+        <path d="M70 20 C70 20,62 10,50 13 C44 15,44 23,50 25 C58 27,66 22,70 20Z" fill="#FF6B9D"/>
+        <path d="M70 20 C70 20,78 10,90 13 C96 15,96 23,90 25 C82 27,74 22,70 20Z" fill="#FF85AC"/>
+        <circle cx="70" cy="20" r="4.5" fill="#E8528A"/>
+      </svg>
+      <div class="char-name">반짝소다</div>
+      <div class="char-lv">Lv.3</div>
+      <div class="char-sp">700 ~ 1199 SP</div>
+    </div>
+
+    <!-- Lv4 -->
+    <div class="char-card">
+      <svg width="80" height="90" viewBox="0 0 140 165">
+        <defs><radialGradient id="g4" cx="35%" cy="25%" r="85%"><stop offset="0%" stop-color="#FFE9C5"/><stop offset="35%" stop-color="#A8C5FF"/><stop offset="70%" stop-color="#4A7BF0"/><stop offset="100%" stop-color="#2A4FC9"/></radialGradient></defs>
+        <ellipse cx="70" cy="153" rx="32" ry="6" fill="#4A7BF0" opacity="0.12"/>
+        <path d="M70 20 C100 18,126 42,128 70 C130 94,118 114,96 122 C96 134,84 142,72 136 C64 144,50 142,44 132 C28 126,12 106,12 82 C12 50,38 22,70 20Z" fill="url(#g4)" stroke="#fff" stroke-width="4"/>
+        <ellipse cx="46" cy="52" rx="20" ry="16" fill="#fff" opacity="0.55"/>
+        <ellipse cx="38" cy="42" rx="9" ry="11" fill="#fff" opacity="0.75"/>
+        <ellipse cx="62" cy="84" rx="5" ry="7" fill="#16234F"/>
+        <ellipse cx="90" cy="84" rx="5" ry="7" fill="#16234F"/>
+        <circle cx="63.5" cy="81" r="1.8" fill="#fff"/>
+        <circle cx="91.5" cy="81" r="1.8" fill="#fff"/>
+        <path d="M62 98 Q76 108 90 98" stroke="#16234F" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- crown -->
+        <path d="M46 22 L56 34 L70 18 L84 34 L94 22 L90 40 L50 40Z" fill="#FFD25E"/>
+        <circle cx="70" cy="20" r="3" fill="#FFA500"/>
+        <circle cx="50" cy="40" r="2" fill="#FFD25E"/>
+        <circle cx="90" cy="40" r="2" fill="#FFD25E"/>
+        <!-- sparkle -->
+        <path d="M18 50 L20 56 L26 58 L20 60 L18 66 L16 60 L10 58 L16 56Z" fill="#fff" opacity="0.9"/>
+        <!-- all prev accessories -->
+        <line x1="70" y1="20" x2="68" y2="10" stroke="#5FD68A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M68 15 C68 15,62 10,56 12Z" fill="#5FD68A"/>
+        <path d="M68 30 C68 30,60 22,50 24 C46 26,46 32,50 34 C56 36,64 30,68 28Z" fill="#FF6B9D" opacity="0.7"/>
+        <path d="M72 28 C72 28,80 22,90 24 C94 26,94 32,90 34 C84 36,76 30,72 28Z" fill="#FF85AC" opacity="0.7"/>
+        <rect x="50" y="72" width="18" height="12" rx="6" fill="#1A1A2E" opacity="0.8"/>
+        <rect x="82" y="72" width="18" height="12" rx="6" fill="#1A1A2E" opacity="0.8"/>
+        <rect x="68" y="75" width="8" height="3" fill="#1A1A2E" opacity="0.8"/>
+      </svg>
+      <div class="char-name">빛나는소다</div>
+      <div class="char-lv">Lv.4</div>
+      <div class="char-sp">1200 SP ~</div>
+    </div>
+  </div>
+
+  <h3>액세서리 스펙 상세</h3>
+  <table>
+    <tr><th>레벨</th><th>액세서리</th><th>색상 / 형태</th><th>위치</th></tr>
+    <tr><td>Lv.1 새싹소다</td><td>새싹 두 잎</td><td>좌: <code>#5FD68A</code> (진초록) / 우: <code>#7AE39E</code> (연초록), 줄기 포함</td><td>머리 정수리 중앙 위</td></tr>
+    <tr><td>Lv.2 통통소다</td><td>리본</td><td>좌 루프 <code>#FF6B9D</code> / 우 루프 <code>#FF85AC</code> / 중앙 매듭 <code>#E8528A</code></td><td>머리 상단, 새싹과 겹치지 않게</td></tr>
+    <tr><td>Lv.3 반짝소다</td><td>선글라스</td><td>좌우 렌즈 <code>#1A1A2E</code> 라운드 렉탱글, 브릿지 연결, 렌즈 내 흰색 하이라이트</td><td>눈 위치에 덮어쓰기 (눈 가림)</td></tr>
+    <tr><td>Lv.4 빛나는소다</td><td>왕관 + 반짝이 파티클</td><td>왕관 <code>#FFD25E</code>, 보석 포인트 <code>#FFA500</code>. 주변 흰색 별 모양 파티클 2~3개</td><td>머리 정수리, 리본 위</td></tr>
+  </table>
+
+  <div class="note">
+    <b>누적 원칙:</b> Lv.3 캐릭터는 새싹 + 리본 + 선글라스를 모두 착용. Lv.4는 새싹 + 리본(투명도 약간 낮춤) + 선글라스(투명도 약간 낮춤) + 왕관 + 파티클 전부 착용. 단, 상위 레벨 액세서리가 주인공이 되도록 하위 액세서리는 opacity를 0.6~0.7로 낮춰도 됨.
+  </div>
+</div>
+
+<!-- 3. 표정 시스템 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">3</span>표정 시스템 (Expression System)</div>
+
+  <p>형태(실루엣)는 유지, 눈 모양 + 입 모양 + 볼 홍조 유무 + 채도 변화만으로 5가지 감정 표현.</p>
+
+  <div class="expr-grid">
+    <div class="expr-card">
+      <svg width="60" height="64" viewBox="0 0 140 150">
+        <defs><radialGradient id="e1" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#D6E2FF"/><stop offset="40%" stop-color="#88A8F7"/><stop offset="80%" stop-color="#4A7BF0"/><stop offset="100%" stop-color="#3360D9"/></radialGradient></defs>
+        <path d="M70 12 C100 10,126 34,128 64 C130 90,116 112,92 120 C92 128,78 130,70 124 C62 130,48 128,48 120 C24 112,10 90,12 64 C14 34,40 10,70 12Z" fill="url(#e1)" stroke="#fff" stroke-width="4"/>
+        <ellipse cx="48" cy="50" rx="16" ry="12" fill="#fff" opacity="0.4"/>
+        <ellipse cx="58" cy="78" rx="5" ry="7" fill="#16234F"/>
+        <ellipse cx="86" cy="78" rx="5" ry="7" fill="#16234F"/>
+        <circle cx="59.5" cy="75" r="1.6" fill="#fff"/>
+        <circle cx="87.5" cy="75" r="1.6" fill="#fff"/>
+      </svg>
+      <div class="expr-name">기본</div>
+      <div class="expr-when">평소 / 아침~오후</div>
+    </div>
+    <div class="expr-card">
+      <svg width="60" height="64" viewBox="0 0 140 150">
+        <defs><radialGradient id="e2" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#D6E2FF"/><stop offset="40%" stop-color="#88A8F7"/><stop offset="80%" stop-color="#4A7BF0"/><stop offset="100%" stop-color="#3360D9"/></radialGradient></defs>
+        <path d="M70 12 C100 10,126 34,128 64 C130 90,116 112,92 120 C92 128,78 130,70 124 C62 130,48 128,48 120 C24 112,10 90,12 64 C14 34,40 10,70 12Z" fill="url(#e2)" stroke="#fff" stroke-width="4"/>
+        <ellipse cx="48" cy="50" rx="16" ry="12" fill="#fff" opacity="0.4"/>
+        <path d="M52 70 L55 76 L61 77 L56 81 L58 87 L52 83 L46 87 L48 81 L43 77 L49 76Z" fill="#16234F"/>
+        <path d="M84 70 L87 76 L93 77 L88 81 L90 87 L84 83 L78 87 L80 81 L75 77 L81 76Z" fill="#16234F"/>
+        <ellipse cx="40" cy="88" rx="7" ry="4" fill="#FF9FB8" opacity="0.55"/>
+        <ellipse cx="104" cy="88" rx="7" ry="4" fill="#FF9FB8" opacity="0.55"/>
+        <path d="M52 96 Q70 110 92 96" stroke="#16234F" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="expr-name">응원·독려</div>
+      <div class="expr-when">챌린지 D-3이하 / 미완료 루틴 과반</div>
+    </div>
+    <div class="expr-card">
+      <svg width="60" height="64" viewBox="0 0 140 150">
+        <defs><radialGradient id="e3" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#D6E2FF"/><stop offset="40%" stop-color="#88A8F7"/><stop offset="80%" stop-color="#4A7BF0"/><stop offset="100%" stop-color="#3360D9"/></radialGradient></defs>
+        <path d="M70 12 C100 10,126 34,128 64 C130 90,116 112,92 120 C92 128,78 130,70 124 C62 130,48 128,48 120 C24 112,10 90,12 64 C14 34,40 10,70 12Z" fill="url(#e3)" stroke="#fff" stroke-width="4"/>
+        <ellipse cx="48" cy="50" rx="16" ry="12" fill="#fff" opacity="0.4"/>
+        <path d="M52 76 Q58 68 64 76" stroke="#16234F" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M80 76 Q86 68 92 76" stroke="#16234F" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <ellipse cx="40" cy="88" rx="7" ry="4" fill="#FF9FB8" opacity="0.6"/>
+        <ellipse cx="104" cy="88" rx="7" ry="4" fill="#FF9FB8" opacity="0.6"/>
+        <path d="M50 92 Q70 110 92 92" stroke="#16234F" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="expr-name">루틴 완료 축하</div>
+      <div class="expr-when">루틴 인증 직후 (2~3초)</div>
+    </div>
+    <div class="expr-card">
+      <svg width="60" height="64" viewBox="0 0 140 150">
+        <defs><radialGradient id="e4" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#C8D4F0"/><stop offset="40%" stop-color="#7A8FD8"/><stop offset="80%" stop-color="#6F8FE8"/><stop offset="100%" stop-color="#5A7AD0"/></radialGradient></defs>
+        <path d="M70 16 C98 14,122 36,124 64 C126 88,113 108,90 116 C90 124,77 126,70 121 C63 126,50 124,50 116 C27 108,14 88,16 64 C18 36,42 14,70 16Z" fill="url(#e4)" stroke="#fff" stroke-width="4"/>
+        <ellipse cx="48" cy="52" rx="14" ry="10" fill="#fff" opacity="0.35"/>
+        <path d="M50 76 Q58 80 66 76" stroke="#16234F" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M78 76 Q86 80 94 76" stroke="#16234F" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M60 94 Q70 90 80 94" stroke="#16234F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <text x="96" y="40" font-size="14" font-weight="800" fill="#C5D2FF" font-family="sans-serif">Z</text>
+        <text x="107" y="30" font-size="10" font-weight="800" fill="#C5D2FF" font-family="sans-serif">z</text>
+      </svg>
+      <div class="expr-name">졸림</div>
+      <div class="expr-when">21시 이후 + 미완료 루틴</div>
+    </div>
+    <div class="expr-card">
+      <svg width="60" height="64" viewBox="0 0 140 150">
+        <defs><radialGradient id="e5" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#B8C8E8"/><stop offset="40%" stop-color="#7090C8"/><stop offset="80%" stop-color="#7C97E0"/><stop offset="100%" stop-color="#6080C8"/></radialGradient></defs>
+        <path d="M70 20 C94 18,116 38,118 64 C120 86,108 104,88 112 C88 120,76 122,70 117 C64 122,52 120,52 112 C32 104,20 86,22 64 C24 38,46 18,70 20Z" fill="url(#e5)" stroke="#fff" stroke-width="4"/>
+        <ellipse cx="48" cy="54" rx="12" ry="10" fill="#fff" opacity="0.32"/>
+        <path d="M52 80 Q58 74 64 78" stroke="#16234F" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M76 78 Q82 74 88 80" stroke="#16234F" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M54 84 C54 84,50 92,54 96 C58 92,54 84,54 84Z" fill="#A9C4FF"/>
+        <path d="M58 100 Q70 94 82 100" stroke="#16234F" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="expr-name">슬픔</div>
+      <div class="expr-when">스트릭 끊긴 다음날 첫 진입 1회</div>
+    </div>
+  </div>
+
+  <h3>표정별 상세 스펙</h3>
+  <table>
+    <tr><th>표정</th><th>눈 형태</th><th>입 형태</th><th>볼 홍조</th><th>바디 채도</th><th>추가 요소</th></tr>
+    <tr><td>기본</td><td>타원 (보통)</td><td>없음 (미소선 생략 가능)</td><td>없음</td><td>100%</td><td>—</td></tr>
+    <tr><td>응원·독려</td><td>별 모양 ★ (5각)</td><td>크게 벌어진 U자 웃음</td><td>있음 (양 볼)</td><td>100%</td><td>주변 반짝이 별 파티클 2~3개</td></tr>
+    <tr><td>루틴 완료 축하</td><td>눈웃음 ^_^ (호 모양)</td><td>크게 벌어진 U자 웃음</td><td>있음 (양 볼, 더 진하게)</td><td>100%</td><td>콘페티(색종이) 파티클, 2~3초 후 기본으로 복귀</td></tr>
+    <tr><td>졸림</td><td>반쯤 감긴 선 (—)</td><td>작은 O자 (하품) 또는 일자</td><td>없음</td><td>70~80%로 낮춤 (채도 저하)</td><td>우상단 Zzz 텍스트 (연한 블루)</td></tr>
+    <tr><td>슬픔</td><td>처진 호 (위 볼록 → 아래 볼록)</td><td>뒤집힌 U (슬픈 입)</td><td>없음</td><td>60~70%로 낮춤 (더 무채색 느낌)</td><td>왼쪽 볼에 눈물 물방울 1개</td></tr>
+  </table>
+
+  <div class="warn">
+    <b>표정과 레벨의 관계:</b> 표정은 레벨 액세서리와 독립적으로 작동하는 레이어. 예: "반짝소다(Lv.3, 선글라스 착용)가 졸린 표정을 짓는다" → 선글라스는 그대로 있고, 바디 채도만 낮아지며 Zzz 텍스트가 나타남. 선글라스 눈 슬릿 사이로 반쯤 감긴 느낌을 추가해도 좋음.
+  </div>
+</div>
+
+<!-- 4. 모션 스펙 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">4</span>모션 스펙 (Motion Spec)</div>
+
+  <h3>① 대기 모션 (Idle / Floating)</h3>
+  <p>캐릭터가 화면에 정적으로 있을 때 항상 실행되는 기본 모션.</p>
+  <ul>
+    <li><b>동작:</b> 위아래 부유 (translateY: 0 → -6px → 0)</li>
+    <li><b>주기:</b> 3.2초 ease-in-out, 무한 반복</li>
+    <li><b>회전:</b> 살짝 좌우 기울기 추가 가능 (rotate -1.5° → 0 → 1.5°)</li>
+    <li><b>그림자:</b> 캐릭터 상승 시 그림자 작아짐 (scale 0.75), 하강 시 커짐 (scale 1.0) — 공중 부유감 강조</li>
+    <li><b>눈 깜빡임:</b> 4.5초마다 1회, scaleY 1.0 → 0.1 → 1.0 (0.1초 빠르게)</li>
+    <li><b>홈/챌린지 탭에 배치된 캐릭터들은 서로 다른 위상(phase)으로 부유</b> — 일렬로 똑같이 움직이면 기계적으로 보임</li>
+  </ul>
+
+  <h3>② 탭 반응 모션 (Squash &amp; Stretch)</h3>
+  <p>유저가 캐릭터를 탭할 때 발생하는 인터랙션 모션.</p>
+  <table>
+    <tr><th>키프레임</th><th>transform</th><th>타이밍</th></tr>
+    <tr><td>0%</td><td><code>scale(1, 1)</code></td><td>시작</td></tr>
+    <tr><td>30%</td><td><code>scale(1.18, 0.78)</code></td><td>눌림 (납작해짐)</td></tr>
+    <tr><td>55%</td><td><code>scale(0.88, 1.16)</code></td><td>튀어오름 (늘어남)</td></tr>
+    <tr><td>75%</td><td><code>scale(1.05, 0.95)</code></td><td>착지 (살짝 눌림)</td></tr>
+    <tr><td>100%</td><td><code>scale(1, 1)</code></td><td>복귀</td></tr>
+  </table>
+  <ul>
+    <li><b>duration:</b> 0.55초</li>
+    <li><b>easing:</b> <code>cubic-bezier(0.36, 1.6, 0.4, 1)</code> — 탄성 있는 오버슈트 느낌</li>
+    <li><b>transform-origin:</b> center bottom (발 쪽이 고정된 채로 움직이는 느낌)</li>
+  </ul>
+
+  <h3>③ 레벨업 모먼트 모션</h3>
+  <p>SP가 레벨 임계치를 초과하는 순간 1회 트리거.</p>
+  <ul>
+    <li>루틴 완료 축하 표정으로 전환</li>
+    <li>스쿼시앤스트레치를 더 크게 (scale 범위 1.25 수준으로 확대)</li>
+    <li>주변 별 모양 파티클 5~7개 방사형으로 퍼짐 (opacity 1.0 → 0, translateX/Y 방사)</li>
+    <li>새 액세서리 페이드인 (opacity 0 → 1, 0.4초)</li>
+    <li>레벨명 텍스트 팝업 (예: "반짝소다로 진화!") 잠깐 노출 후 사라짐</li>
+  </ul>
+
+  <h3>④ 응원 흔들림 모션 (Wobble)</h3>
+  <p>응원·독려 표정일 때 추가로 실행.</p>
+  <ul>
+    <li>좌우 흔들기: rotate -4° → 0 → +4° → 0, 2초 ease-in-out 반복</li>
+    <li>idle 부유 모션과 동시 실행</li>
+  </ul>
+
+  <h3>⑤ 처짐 모션 (Droopy)</h3>
+  <p>졸림 표정일 때 대기 모션 대체.</p>
+  <ul>
+    <li>translateY: 0 → +3px → 0, scale: 1 → 1.02, 0.98 (살짝 퍼짐)</li>
+    <li>4초 ease-in-out 반복 — 부유보다 느리고 무거운 느낌</li>
+  </ul>
+</div>
+
+<!-- 5. 사용 위치별 크기 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">5</span>사용 위치별 크기 가이드</div>
+  <table>
+    <tr><th>사용 위치</th><th>크기 (기준)</th><th>특이사항</th></tr>
+    <tr><td>홈 히어로 카드 (메인)</td><td>108px (화면 기준)</td><td>부유 + 탭 스쿼시 + 말풍선 포함</td></tr>
+    <tr><td>챌린지 탭 미니 위젯</td><td>46px</td><td>부유 모션 (작은 진폭), 탭 스쿼시</td></tr>
+    <tr><td>캐릭터 상세 화면</td><td>120~140px</td><td>부유 + 탭 스쿼시 + SP 진행바 연동</td></tr>
+    <tr><td>레벨 단계 비교 (마이페이지 등)</td><td>64px</td><td>정적 이미지, 모션 없음</td></tr>
+    <tr><td>스탬프 / 배지</td><td>28~34px</td><td>미니 버전, 액세서리만 단순화, 눈 점 2개 + 단순 입만</td></tr>
+  </table>
+  <div class="note">
+    <b>스탬프 버전:</b> 인증 완료 시 루틴 카드에 찍히는 미니 캐릭터 스탬프. 형태는 같지만 너무 작아서 디테일이 뭉개지므로, 눈 2개(점 형태)와 단순화된 실루엣만 사용. 색상은 동일.
+  </div>
+</div>
+
+<!-- 6. 구현 방식 권장 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">6</span>구현 방식 권장</div>
+  <table>
+    <tr><th>구현 방식</th><th>장점</th><th>단점</th><th>권장 여부</th></tr>
+    <tr><td>SVG + CSS 애니메이션</td><td>빠른 프로토타이핑, 코드로 직접 제어</td><td>복잡한 광택 표현 한계</td><td>✅ 와이어프레임/MVP 단계</td></tr>
+    <tr><td>Lottie (After Effects → JSON)</td><td>풍부한 모션, 디자이너 제작 가능</td><td>파일 크기, AE 필요</td><td>✅ 정식 출시 단계 권장</td></tr>
+    <tr><td>Rive</td><td>인터랙티브 상태 머신, 실시간 제어 용이</td><td>러닝커브</td><td>✅ 표정 전환 구현 시 최적</td></tr>
+    <tr><td>PNG 스프라이트</td><td>단순 구현</td><td>해상도, 용량, 유연성 부족</td><td>❌ 비권장</td></tr>
+  </table>
+  <div class="note">
+    <b>최종 권장:</b> MVP/경진대회 제출용은 SVG + CSS 애니메이션으로 구현, 정식 서비스 단계에서 Rive 또는 Lottie로 마이그레이션하는 것을 권장합니다. 표정 5종의 상태 전환은 Rive의 state machine이 가장 자연스럽게 구현됩니다.
+  </div>
+</div>
+
+</body>
+</html>
